@@ -1,19 +1,30 @@
-#OBJS specifies which files to compile as part of the project
-OBJS = hello_SDL.cpp
+# SRC_FILES specifies my cpp source files
+SRC_FILES = main.cpp my_image_funcs.cpp window_logic.cpp
 
-#CC specifies which compiler we're using
-CC = g++
+# OBJS specifies which files to compile as part of the project
+OBJS=main.o my_image_funcs.o window_logic.o
 
-#COMPILER_FLAGS specifies the additional compilation options we're using
+# CXX specifies which C++ compiler we're using
+CXX=g++
+
+# DEPS specifies the set of header files the c++ files depend on.
+DEPS=my_image_funcs.hpp window_logic.hpp
+
+# CXX_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
-COMPILER_FLAGS = -w
+CXX_FLAGS=-w
 
-#LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS = -lSDL2
+# LINKER_FLAGS specifies the libraries we're linking against
+LINKER_FLAGS=-lSDL2 -lSDL2_image
 
-#OBJ_NAME specifies the name of our exectuable
-OBJ_NAME = hello_SDL
+# TARGET speciies the name of our exectuable
+TARGET=game
 
-#This is the target that compiles our executable
-all : $(OBJS)
-	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+# This is the target that compiles our executable
+all: $(OBJS)
+	$(CXX) $(OBJS) $(CXX_FLAGS) $(LINKER_FLAGS) -o $(TARGET)
+
+.PHONY: clean
+
+clean:
+	rm -f *.o
