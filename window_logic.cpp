@@ -1,19 +1,29 @@
 #include "window_logic.hpp"
+// This is for smart pointers -> std::unique_ptr<TYPE> will test it out later
+#include <memory>
+
 
 // CONSTANTS
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
-// The window we'll be rendering to
 SDL_Window* gWindow = nullptr;
 
-// The surface contained by the window
 SDL_Surface* gScreenSurface = nullptr;
 
-// The image we will load and show on the screen
 SDL_Surface* gHelloWorld = nullptr;
 
-// Ininitialization flag
+SDL_Surface* loadSurface(std::string path)
+{
+	// Load image at specified path
+	SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
+	if(loadedSurface == nullptr)
+	{
+		printf("Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+	}
+	return loadedSurface;
+}
+
 bool init_my_window()
 {
 	bool success = true;
@@ -61,10 +71,12 @@ void close_my_window()
 	// Deallocate surface
 	SDL_FreeSurface(gHelloWorld);
 	gHelloWorld = nullptr;
+	delete gHelloWorld;
 
 	// Deallocate screenSurface
 	SDL_FreeSurface(gScreenSurface);
 	gScreenSurface = nullptr;
+
 
 	// Destroy window
 	SDL_DestroyWindow(gWindow);

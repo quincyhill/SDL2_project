@@ -1,14 +1,14 @@
 # SRC_FILES specifies my cpp source files
-SRC_FILES = main.cpp my_image_funcs.cpp window_logic.cpp
+SRC_FILES = main.cpp image_funcs.cpp window_logic.cpp key_presses.cpp
 
 # OBJS specifies which files to compile as part of the project
-OBJS=main.o my_image_funcs.o window_logic.o
+OBJS=main.o image_funcs.o window_logic.o key_presses.o
 
 # CXX specifies which C++ compiler we're using
 CXX=g++
 
 # DEPS specifies the set of header files the c++ files depend on.
-DEPS=my_image_funcs.hpp window_logic.hpp
+DEPS=image_funcs.hpp window_logic.hpp key_presses.hpp
 
 # CXX_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
@@ -21,9 +21,10 @@ LINKER_FLAGS=-lSDL2 -lSDL2_image
 TARGET=game
 
 # This is the target that compiles our executable
-all: $(OBJS)
+build: $(OBJS)
 	$(CXX) $(OBJS) $(CXX_FLAGS) $(LINKER_FLAGS) -o $(TARGET)
 
+# I need to see what the .PHONY means again
 .PHONY: clean
 
 clean:
