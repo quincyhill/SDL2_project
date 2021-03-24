@@ -1,27 +1,44 @@
 #include "window_logic.hpp"
-// This is for smart pointers -> std::unique_ptr<TYPE> will test it out later
-#include <memory>
+#include "key_presses.hpp" // This is for smart pointers -> std::unique_ptr<TYPE> will test it out later
 
 
 // CONSTANTS
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+// 1280 x 720 for testing purposes then eventual 1080p
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
-SDL_Window* gWindow = nullptr;
+SDL_Window *gWindow = nullptr;
 
-SDL_Surface* gScreenSurface = nullptr;
+SDL_Surface *gScreenSurface = nullptr;
 
-SDL_Surface* gHelloWorld = nullptr;
+SDL_Surface *gHelloWorld = nullptr;
 
-SDL_Surface* loadSurface(std::string path)
+SDL_Surface *loadSurface(std::string path)
 {
+	// the final optimized image
+	SDL_Surface *optimizedSuface = nullptr;
+
 	// Load image at specified path
-	SDL_Surface* loadedSurface = SDL_LoadBMP(path.c_str());
+	SDL_Surface *loadedSurface = SDL_LoadBMP(path.c_str());
+
 	if(loadedSurface == nullptr)
 	{
 		printf("Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
 	}
-	return loadedSurface;
+	else
+	{
+		// Convert surface to screen format
+		optimizedSuface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, 0);
+
+		if(optimizedSuface == nullptr)
+		{
+			printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+		}
+
+		// Get rid of old loaded surface
+		SDL_FreeSurface(loadedSurface);
+	}
+	return optimizedSuface;
 }
 
 bool init_my_window()
@@ -53,7 +70,7 @@ bool init_my_window()
 			// SDL_FillRect(screenSurface, nullptr, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 
 			// Delay so that the color comes in, still some issue that it doesnt always colors in white temp "fix"
-			SDL_Delay(100);
+			// I saw someone do this youtube and ngl it seems kinda smart to do num/60 SDL_Delay(1000/60);
 
 			// // Update the surface
 			// SDL_UpdateWindowSurface(window);
@@ -84,5 +101,67 @@ void close_my_window()
 
 	// Quit SDL subsystems
 	SDL_Quit();
+}
+
+void main_loop(SDL_Event e, bool *quit_ptr)
+{
+	// Handle events on queue
+	while(SDL_PollEvent(&e) != 0)
+	{
+		// User requests quit
+		if(e.type == SDL_QUIT)
+		{
+			// Changes the quit in main to true and exits via the pointer
+			*quit_ptr = true;
+		}
+		// User presses a key
+		else if(e.type == SDL_KEYDOWN)
+		{
+			// Select surfaces based on key press
+			switch(e.key.keysym.sym)
+			{
+				case SDLK_UP:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
+					break;
+
+				case SDLK_DOWN:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
+					break;
+
+				case SDLK_LEFT:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
+					break;
+
+				case SDLK_RIGHT:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
+					break;
+
+				default:
+					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
+					break;
+			}
+		}
+
+		// Check for other key
+		if(e.type == SDLK_q)
+		{
+			printf("The user pressed letter Q! ;)\n");
+		}
+
+		// This is the non stretched version which maintained the default dimensions
+		// // Apply the image
+		// SDL_BlitSurface(gCurrentSurface, nullptr, gScreenSurface, nullptr);
+
+		// Apply the stretched image
+		SDL_Rect stretchRect;
+		stretchRect.x = 0;
+		stretchRect.y = 0;
+		stretchRect.w = SCREEN_WIDTH;
+		stretchRect.h = SCREEN_HEIGHT;
+		SDL_BlitScaled(gCurrentSurface, nullptr, gScreenSurface, &stretchRect);
+
+		// Update the surface
+		SDL_UpdateWindowSurface(gWindow);
+	}
 }
 

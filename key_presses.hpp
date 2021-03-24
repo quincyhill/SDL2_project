@@ -12,8 +12,8 @@ enum KeyPressSurfaces
 };
 
 // This are the surfaces
-extern SDL_Surface* gKeyPressSurfaces[];
+extern SDL_Surface *gKeyPressSurfaces[];
 
-// Current displayed image
-extern SDL_Surface* gCurrentSurface;
+// Currently displayed image
+extern SDL_Surface *gCurrentSurface;
 

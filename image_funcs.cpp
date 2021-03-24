@@ -50,7 +50,7 @@ bool loadMedia()
 	}
 
 	// This is for helloworld png we're not using this atm
-	// SDL_RWops* rwop;
+	// SDL_RWops *rwop;
 	// rwop = SDL_RWFromFile("assets/img/helloworld.png", "rb");
 	// gHelloWorld = IMG_LoadPNG_RW(rwop);
 
