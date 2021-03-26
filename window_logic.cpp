@@ -1,9 +1,9 @@
 #include "window_logic.hpp"
-#include "key_presses.hpp" // This is for smart pointers -> std::unique_ptr<TYPE> will test it out later
-
+#include "key_presses.hpp"
+#include "media_funcs.hpp"
 
 // CONSTANTS
-// 1280 x 720 for testing purposes then eventual 1080p
+// 1280 x 720 for testing purposes for window size then eventual 1080p
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
 
@@ -13,33 +13,6 @@ SDL_Surface *gScreenSurface = nullptr;
 
 SDL_Surface *gHelloWorld = nullptr;
 
-SDL_Surface *loadSurface(std::string path)
-{
-	// the final optimized image
-	SDL_Surface *optimizedSuface = nullptr;
-
-	// Load image at specified path
-	SDL_Surface *loadedSurface = SDL_LoadBMP(path.c_str());
-
-	if(loadedSurface == nullptr)
-	{
-		printf("Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-	}
-	else
-	{
-		// Convert surface to screen format
-		optimizedSuface = SDL_ConvertSurface(loadedSurface, gScreenSurface->format, 0);
-
-		if(optimizedSuface == nullptr)
-		{
-			printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		}
-
-		// Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
-	}
-	return optimizedSuface;
-}
 
 bool init_my_window()
 {
@@ -63,6 +36,30 @@ bool init_my_window()
 		}
 		else
 		{
+			// Create renderer for window
+			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+
+			if(gRenderer == nullptr)
+			{
+				printf("Renderer could not be created! SDL_Error: %s\n",SDL_GetError());
+				success = false;
+			}
+			else
+			{
+				// Initialize renderer color
+				// 0xff is simply 255 in hexadecimal
+				SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
+
+				// Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;
+
+				if(!(IMG_Init(imgFlags) & imgFlags))
+				{
+					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+					success = false;
+				}
+			}
+
 			// Get window surface
 			gScreenSurface = SDL_GetWindowSurface(gWindow);
 
@@ -85,22 +82,31 @@ bool init_my_window()
 
 void close_my_window()
 {
-	// Deallocate surface
-	SDL_FreeSurface(gHelloWorld);
-	gHelloWorld = nullptr;
-	delete gHelloWorld;
+	// Not using hello world no need to deallocate
+	// // Deallocate surface
+	// SDL_FreeSurface(gHelloWorld);
+	// gHelloWorld = nullptr;
+	// delete gHelloWorld;
 
 	// Deallocate screenSurface
 	SDL_FreeSurface(gScreenSurface);
 	gScreenSurface = nullptr;
 
+	// Free loaded image
+	SDL_DestroyTexture(gTexture);
+	gTexture = nullptr;
 
-	// Destroy window
+	// Destroy window 
 	SDL_DestroyWindow(gWindow);
+	// Destroy renderer
+	SDL_DestroyRenderer(gRenderer);
+	gRenderer = nullptr;
 	gWindow = nullptr;
 
 	// Quit SDL subsystems
 	SDL_Quit();
+	// Quit IMG subsystems
+	IMG_Quit();
 }
 
 void main_loop(SDL_Event e, bool *quit_ptr)
@@ -114,54 +120,67 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 			// Changes the quit in main to true and exits via the pointer
 			*quit_ptr = true;
 		}
-		// User presses a key
-		else if(e.type == SDL_KEYDOWN)
-		{
-			// Select surfaces based on key press
-			switch(e.key.keysym.sym)
-			{
-				case SDLK_UP:
-					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
-					break;
+		// Temp pausing action on selected surface from key selected
+		// // User presses a key
+		// else if(e.type == SDL_KEYDOWN)
+		// {
+		// 	// Select surfaces based on key press
+		// 	switch(e.key.keysym.sym)
+		// 	{
+		// 		case SDLK_UP:
+		// 			gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
+		// 			break;
 
-				case SDLK_DOWN:
-					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
-					break;
+		// 		case SDLK_DOWN:
+		// 			gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
+		// 			break;
 
-				case SDLK_LEFT:
-					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
-					break;
+		// 		case SDLK_LEFT:
+		// 			gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
+		// 			break;
 
-				case SDLK_RIGHT:
-					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
-					break;
+		// 		case SDLK_RIGHT:
+		// 			gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
+		// 			break;
 
-				default:
-					gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
-					break;
-			}
-		}
+		// 		default:
+		// 			gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
+		// 			break;
+		// 	}
+		// }
 
-		// Check for other key
-		if(e.type == SDLK_q)
-		{
-			printf("The user pressed letter Q! ;)\n");
-		}
+		// Also not need atm, might make these both functions to compartmentalize
+		// // Check for other key
+		// if(e.type == SDLK_q)
+		// {
+		// 	printf("The user pressed letter Q! ;)\n");
+		// }
 
 		// This is the non stretched version which maintained the default dimensions
 		// // Apply the image
 		// SDL_BlitSurface(gCurrentSurface, nullptr, gScreenSurface, nullptr);
 
-		// Apply the stretched image
-		SDL_Rect stretchRect;
-		stretchRect.x = 0;
-		stretchRect.y = 0;
-		stretchRect.w = SCREEN_WIDTH;
-		stretchRect.h = SCREEN_HEIGHT;
-		SDL_BlitScaled(gCurrentSurface, nullptr, gScreenSurface, &stretchRect);
+		/* not currently displaying the streched screen */
+		// // Apply the stretched image
+		// SDL_Rect stretchRect;
+		// stretchRect.x = 0;
+		// stretchRect.y = 0;
+		// stretchRect.w = SCREEN_WIDTH;
+		// stretchRect.h = SCREEN_HEIGHT;
+		// SDL_BlitScaled(gCurrentSurface, nullptr, gScreenSurface, &stretchRect);
 
+		/*
 		// Update the surface
 		SDL_UpdateWindowSurface(gWindow);
+		*/
+		// Clear Screen
+		SDL_RenderClear(gRenderer);
+
+		// Render texture to screen
+		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
+
+		// Update screen
+		SDL_RenderPresent(gRenderer);
 	}
 }
 

@@ -2,8 +2,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_surface.h>
+#include <SDL2/SDL_mixer.h>
 #include <stdio.h>
-#include "image_funcs.hpp"
+#include "media_funcs.hpp"
 #include "window_logic.hpp"
 #include "key_presses.hpp"
 

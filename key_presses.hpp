@@ -17,3 +17,10 @@ extern SDL_Surface *gKeyPressSurfaces[];
 // Currently displayed image
 extern SDL_Surface *gCurrentSurface;
 
+/*
+ * Functions
+ */
+
+// Checks user input from keys and changes image depending on what is pressed
+bool display_from_keypress(bool success);
+
