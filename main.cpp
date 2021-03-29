@@ -8,7 +8,6 @@
 #include "window_logic.hpp"
 #include "key_presses.hpp"
 
-
 int main(int argc, char *args[])
 {
 	// Start up SDL and create window

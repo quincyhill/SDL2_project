@@ -3,7 +3,7 @@
 
 ## Dependencies 
 * SDL2 (lib)
-* lld (lib)
+* lld (linker)
 * make (build tool)
 * g++ (compiler)
 * git (scm)

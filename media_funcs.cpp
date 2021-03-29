@@ -12,16 +12,18 @@ bool loadMedia()
 	bool success = true;
 
 
-	// // This would be for keypresses
+	// // Keypresses loading images
 	// success = display_from_keypress(success);
 
-	// Load PNG texture
-	gTexture = loadTexture("./assets/img/texture.png");
-	if(gTexture == nullptr)
-	{
-		printf("Failed to load texture image!\n");
-		success = false;
-	}
+	// // PNG loading texture
+	// gTexture = loadTexture("./assets/img/texture.png");
+	// if(gTexture == nullptr)
+	// {
+	// 	printf("Failed to load texture image!\n");
+	// 	success = false;
+	// }
+	
+	// Geometry loading stuff
 	return success;
 }
 
