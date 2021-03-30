@@ -188,16 +188,16 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 		SDL_RenderClear(gRenderer);
 
 		// Render red filled quad
-		SDL_Rect fillRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2};
+		SDL_Rect fillRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
 		// Red hex colors (r,g,b,a)
 		SDL_SetRenderDrawColor(gRenderer, 0xff, 0x00, 0x00, 0xff);
 		SDL_RenderFillRect(gRenderer, &fillRect);
 
 		// Render green outlined quad
-		SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6, SCREEN_HEIGHT * 2 / 3, SCREEN_HEIGHT * 2 / 3};
+		SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6, SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3};
 		// Green hex colors (r,g,b,a)
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xff, 0x00, 0xff);
-		SDL_RenderFillRect(gRenderer, &outlineRect);
+		SDL_RenderDrawRect(gRenderer, &outlineRect);
 
 		// Render blue horizontal line
 		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0xff, 0xff);
@@ -210,7 +210,7 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 			SDL_RenderDrawPoint(gRenderer, SCREEN_WIDTH / 2, i);
 		}
 
-		// Update Screen
+		// Update the screen
 		SDL_RenderPresent(gRenderer);
 	}
 }
