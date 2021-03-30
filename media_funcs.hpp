@@ -13,7 +13,7 @@ extern SDL_Renderer *gRenderer;
  * Functions
  */
 
-// Loads the visual assets and whatnot to the window
+// Loads the assets to the window
 bool loadMedia();
 
 // Loads individual image

@@ -183,32 +183,66 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 		// SDL_RenderPresent(gRenderer);
 
 		// Clear Screen
-		SDL_SetRenderDrawColor(gRenderer,0xff, 0xff, 0xff, 0xff);
-		// Also make sure to clear the render
-		SDL_RenderClear(gRenderer);
+		// SDL_SetRenderDrawColor(gRenderer,0xff, 0xff, 0xff, 0xff);
+		// // Also make sure to clear the render
+		// SDL_RenderClear(gRenderer);
 
-		// Render red filled quad
-		SDL_Rect fillRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-		// Red hex colors (r,g,b,a)
-		SDL_SetRenderDrawColor(gRenderer, 0xff, 0x00, 0x00, 0xff);
-		SDL_RenderFillRect(gRenderer, &fillRect);
+		// // Render red filled quad
+		// SDL_Rect fillRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
+		// // Red hex colors (r,g,b,a)
+		// SDL_SetRenderDrawColor(gRenderer, 0xff, 0x00, 0x00, 0xff);
+		// SDL_RenderFillRect(gRenderer, &fillRect);
 
-		// Render green outlined quad
-		SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6, SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3};
-		// Green hex colors (r,g,b,a)
-		SDL_SetRenderDrawColor(gRenderer, 0x00, 0xff, 0x00, 0xff);
-		SDL_RenderDrawRect(gRenderer, &outlineRect);
+		// // Render green outlined quad
+		// SDL_Rect outlineRect = {SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6, SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3};
+		// // Green hex colors (r,g,b,a)
+		// SDL_SetRenderDrawColor(gRenderer, 0x00, 0xff, 0x00, 0xff);
+		// SDL_RenderDrawRect(gRenderer, &outlineRect);
 
-		// Render blue horizontal line
-		SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0xff, 0xff);
-		SDL_RenderDrawLine(gRenderer, 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2);
+		// // Render blue horizontal line
+		// SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0xff, 0xff);
+		// SDL_RenderDrawLine(gRenderer, 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2);
 
-		// Draw vertical line of yellow dots
-		SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0x00, 0xff);
-		for(int i = 0; i < SCREEN_HEIGHT; i+=4)
-		{
-			SDL_RenderDrawPoint(gRenderer, SCREEN_WIDTH / 2, i);
-		}
+		// // Draw vertical line of yellow dots
+		// SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0x00, 0xff);
+		// for(int i = 0; i < SCREEN_HEIGHT; i+=4)
+		// {
+		// 	SDL_RenderDrawPoint(gRenderer, SCREEN_WIDTH / 2, i);
+		// }
+
+
+		// Top Left corner viewport
+		SDL_Rect topLeftViewport;
+		topLeftViewport.x = 0;
+		topLeftViewport.y = 0;
+		topLeftViewport.w = SCREEN_WIDTH / 2;
+		topLeftViewport.h = SCREEN_HEIGHT / 2;
+		SDL_RenderSetViewport(gRenderer, &topLeftViewport);
+
+		// Render png texture to screen
+		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
+
+		// Top right viewport
+		SDL_Rect topRightViewport;
+		topRightViewport.x = SCREEN_WIDTH / 2;
+		topRightViewport.y = 0;
+		topRightViewport.w = SCREEN_WIDTH / 2;
+		topRightViewport.h = SCREEN_HEIGHT / 2;
+		SDL_RenderSetViewport(gRenderer, &topRightViewport);
+
+		// Render png texture to screen
+		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
+
+		// bottom viewport
+		SDL_Rect bottomViewport;
+		bottomViewport.x = 0;
+		bottomViewport.y = SCREEN_HEIGHT / 2;
+		bottomViewport.w = SCREEN_WIDTH;
+		bottomViewport.h = SCREEN_HEIGHT / 2;
+		SDL_RenderSetViewport(gRenderer, &bottomViewport);
+
+		// Render png texture to screen
+		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
 
 		// Update the screen
 		SDL_RenderPresent(gRenderer);

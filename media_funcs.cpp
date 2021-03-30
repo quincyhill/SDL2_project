@@ -11,19 +11,17 @@ bool loadMedia()
 	// Loading success flag
 	bool success = true;
 
-
 	// // Keypresses loading images
 	// success = display_from_keypress(success);
 
-	// // PNG loading texture
-	// gTexture = loadTexture("./assets/img/texture.png");
-	// if(gTexture == nullptr)
-	// {
-	// 	printf("Failed to load texture image!\n");
-	// 	success = false;
-	// }
+	// viewport texture
+	gTexture = loadTexture("./assets/img/viewport.png");
+	if(gTexture == nullptr)
+	{
+		printf("Failed to load png image!\n");
+		success = false;
+	}
 	
-	// Geometry loading stuff
 	return success;
 }
 
