@@ -1,3 +1,6 @@
+#ifndef KEY_PRESSES_HPP
+#define KEY_PRESSES_HPP
+
 #include <SDL2/SDL.h>
 
 // Can just put enums in the header rather than the cpp file just make sure to not redeclare in cpp file
@@ -24,3 +27,4 @@ extern SDL_Surface *gCurrentSurface;
 // Checks user input from keys and changes image depending on what is pressed
 bool display_from_keypress(bool success);
 
+#endif

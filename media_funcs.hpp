@@ -1,3 +1,6 @@
+#ifndef MEDIA_FUNCS_HPP
+#define MEDIA_FUNCS_HPP
+
 // This loads the png that I have put
 #include "window_logic.hpp"
 
@@ -21,3 +24,5 @@ SDL_Surface *loadSurface(std::string path);
 
 // Loads individual image as texture
 SDL_Texture *loadTexture(std::string path);
+
+#endif

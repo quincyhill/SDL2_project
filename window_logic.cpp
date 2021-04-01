@@ -1,6 +1,7 @@
 #include "window_logic.hpp"
 #include "key_presses.hpp"
 #include "media_funcs.hpp"
+#include "LTexture.hpp"
 
 // CONSTANTS
 // 1280 x 720 for testing purposes for window size then eventual 1080p
@@ -87,25 +88,39 @@ void close_my_window()
 	// gHelloWorld = nullptr;
 	// delete gHelloWorld;
 
-	// Deallocate screenSurface
-	SDL_FreeSurface(gScreenSurface);
-	gScreenSurface = nullptr;
+	// // Deallocate screenSurface
+	// SDL_FreeSurface(gScreenSurface);
+	// gScreenSurface = nullptr;
 
-	// Free loaded image
-	SDL_DestroyTexture(gTexture);
-	gTexture = nullptr;
+	// // Free loaded image
+	// SDL_DestroyTexture(gTexture);
+	// gTexture = nullptr;
 
-	// Destroy window 
-	SDL_DestroyWindow(gWindow);
-	// Destroy renderer
+	// // Destroy window 
+	// SDL_DestroyWindow(gWindow);
+	// // Destroy renderer
+	// SDL_DestroyRenderer(gRenderer);
+	// gRenderer = nullptr;
+	// gWindow = nullptr;
+
+	// // Quit SDL subsystems
+	// SDL_Quit();
+	// // Quit IMG subsystems
+	// IMG_Quit();
+	
+	// Free loaded images
+	gCharacterTexture.freeTexture();
+	gBackgroundTexture.freeTexture();
+
+	// Destroy window
 	SDL_DestroyRenderer(gRenderer);
+	SDL_DestroyWindow(gWindow);
 	gRenderer = nullptr;
 	gWindow = nullptr;
 
 	// Quit SDL subsystems
-	SDL_Quit();
-	// Quit IMG subsystems
 	IMG_Quit();
+	SDL_Quit();
 }
 
 void main_loop(SDL_Event e, bool *quit_ptr)
@@ -210,41 +225,55 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 		// 	SDL_RenderDrawPoint(gRenderer, SCREEN_WIDTH / 2, i);
 		// }
 
+		// /* This stuff here is for viewport stuff */
+		// // Top Left corner viewport
+		// SDL_Rect topLeftViewport;
+		// topLeftViewport.x = 0;
+		// topLeftViewport.y = 0;
+		// topLeftViewport.w = SCREEN_WIDTH / 2;
+		// topLeftViewport.h = SCREEN_HEIGHT / 2;
+		// SDL_RenderSetViewport(gRenderer, &topLeftViewport);
 
-		// Top Left corner viewport
-		SDL_Rect topLeftViewport;
-		topLeftViewport.x = 0;
-		topLeftViewport.y = 0;
-		topLeftViewport.w = SCREEN_WIDTH / 2;
-		topLeftViewport.h = SCREEN_HEIGHT / 2;
-		SDL_RenderSetViewport(gRenderer, &topLeftViewport);
+		// // Render png texture to screen
+		// SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
 
-		// Render png texture to screen
-		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
+		// // Top right viewport
+		// SDL_Rect topRightViewport;
+		// topRightViewport.x = SCREEN_WIDTH / 2;
+		// topRightViewport.y = 0;
+		// topRightViewport.w = SCREEN_WIDTH / 2;
+		// topRightViewport.h = SCREEN_HEIGHT / 2;
+		// SDL_RenderSetViewport(gRenderer, &topRightViewport);
 
-		// Top right viewport
-		SDL_Rect topRightViewport;
-		topRightViewport.x = SCREEN_WIDTH / 2;
-		topRightViewport.y = 0;
-		topRightViewport.w = SCREEN_WIDTH / 2;
-		topRightViewport.h = SCREEN_HEIGHT / 2;
-		SDL_RenderSetViewport(gRenderer, &topRightViewport);
+		// // Render png texture to screen
+		// SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
 
-		// Render png texture to screen
-		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
+		// // bottom viewport
+		// SDL_Rect bottomViewport;
+		// bottomViewport.x = 0;
+		// bottomViewport.y = SCREEN_HEIGHT / 2;
+		// bottomViewport.w = SCREEN_WIDTH;
+		// bottomViewport.h = SCREEN_HEIGHT / 2;
+		// SDL_RenderSetViewport(gRenderer, &bottomViewport);
 
-		// bottom viewport
-		SDL_Rect bottomViewport;
-		bottomViewport.x = 0;
-		bottomViewport.y = SCREEN_HEIGHT / 2;
-		bottomViewport.w = SCREEN_WIDTH;
-		bottomViewport.h = SCREEN_HEIGHT / 2;
-		SDL_RenderSetViewport(gRenderer, &bottomViewport);
+		// // Render png texture to screen
+		// SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
 
-		// Render png texture to screen
-		SDL_RenderCopy(gRenderer, gTexture, nullptr, nullptr);
+		// // Update the screen
+		// SDL_RenderPresent(gRenderer);
+		// /* end of viewport stuff */
 
-		// Update the screen
+		// Clear Screen
+		SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
+		SDL_RenderClear(gRenderer);
+
+		// Render background texture to screen
+		gBackgroundTexture.render(0, 0);
+
+		// Render Character to the screen
+		gCharacterTexture.render(240,240);
+
+		// Update screen
 		SDL_RenderPresent(gRenderer);
 	}
 }

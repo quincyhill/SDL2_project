@@ -20,4 +20,4 @@ Deletes any object files if you wish
 `$ make clean`
 
 ## Run
-`$ ./game`
+`$ ./test_game`

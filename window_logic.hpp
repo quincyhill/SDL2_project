@@ -1,3 +1,6 @@
+#ifndef WINDOW_LOGIC_HPP
+#define WINDOW_LOGIC_HPP
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
@@ -34,3 +37,5 @@ void close_my_window();
 
 // Main window loop essentially the buik of activity
 void main_loop(SDL_Event e, bool *quit_ptr);
+
+#endif

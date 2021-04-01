@@ -1,6 +1,7 @@
 #include "media_funcs.hpp" 
 #include "window_logic.hpp"
 #include "key_presses.hpp"
+#include "LTexture.hpp"
 
 SDL_Texture *gTexture = nullptr;
 
@@ -14,14 +15,28 @@ bool loadMedia()
 	// // Keypresses loading images
 	// success = display_from_keypress(success);
 
-	// viewport texture
-	gTexture = loadTexture("./assets/img/viewport.png");
-	if(gTexture == nullptr)
+	// // viewport texture
+	// gTexture = loadTexture("./assets/img/viewport.png");
+	// if(gTexture == nullptr)
+	// {
+	// 	printf("Failed to load png image!\n");
+	// 	success = false;
+	// }
+
+	// Load Foo' texture
+	if(!gCharacterTexture.loadFromFile("./assets/img/basiccharacter.png"))
 	{
-		printf("Failed to load png image!\n");
+		printf("Faild to load Basic Character texture image!\n");
 		success = false;
 	}
-	
+
+	// Load Background texture
+	if(!gBackgroundTexture.loadFromFile("./assets/img/sunnybackground.png"))
+	{
+		printf("Faild to load Background texture image!\n");
+		success = false;
+	}
+
 	return success;
 }
 
