@@ -31,8 +31,8 @@ int main(int argc, char *args[])
 			// Event handler
 			SDL_Event e;
 
-			// Set default current surface
-			gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
+			// // Set default current surface
+			// gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
 
 			// While the application is running
 			while(!quit)

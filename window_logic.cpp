@@ -26,6 +26,12 @@ bool init_my_window()
 	}
 	else
 	{
+		// Set texture filtering to linear
+		if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
+		{
+			printf("Warning: Linear texture filtering not enabled!");
+		}
+
 		// Create window
 		gWindow = SDL_CreateWindow("Quincy's SDL Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -47,7 +53,7 @@ bool init_my_window()
 			else
 			{
 				// Initialize renderer color
-				// 0xff is simply 255 in hexadecimal
+				// 0xff is simply 255 in hexadecimal, so white in this case
 				SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
 
 				// Initialize PNG loading
@@ -60,8 +66,8 @@ bool init_my_window()
 				}
 			}
 
-			// Get window surface
-			gScreenSurface = SDL_GetWindowSurface(gWindow);
+			// // Get window surface
+			// gScreenSurface = SDL_GetWindowSurface(gWindow);
 
 			// // Fill the surface white
 			// SDL_FillRect(screenSurface, nullptr, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
@@ -108,9 +114,13 @@ void close_my_window()
 	// // Quit IMG subsystems
 	// IMG_Quit();
 	
+	// // Free loaded images
+	// gCharacterTexture.freeTexture();
+	// gBackgroundTexture.freeTexture();
+	// ^ This could have caused some memory leaks? idk
+	
 	// Free loaded images
-	gCharacterTexture.freeTexture();
-	gBackgroundTexture.freeTexture();
+	gSpriteSheetTexture.freeTexture();
 
 	// Destroy window
 	SDL_DestroyRenderer(gRenderer);
@@ -127,12 +137,15 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 {
 	// Handle events on queue
 	while(SDL_PollEvent(&e) != 0)
-	{
+	{	
 		// User requests quit
 		if(e.type == SDL_QUIT)
 		{
 			// Changes the quit in main to true and exits via the pointer
 			*quit_ptr = true;
+
+			// IDK if this needs to be here lel
+			quit_ptr = nullptr;
 		}
 		// Temp pausing action on selected surface from key selected
 		// // User presses a key
@@ -267,11 +280,31 @@ void main_loop(SDL_Event e, bool *quit_ptr)
 		SDL_SetRenderDrawColor(gRenderer, 0xff, 0xff, 0xff, 0xff);
 		SDL_RenderClear(gRenderer);
 
-		// Render background texture to screen
-		gBackgroundTexture.render(0, 0);
+		for(int i = 0; i < 4; i++)
+		{
+			printf("Value of gSpriteClips[%i]'s x,y,w,h is: %i, %i, %i, %i\n", i, gSpriteClips[i].x, gSpriteClips[i].y, gSpriteClips[i].w, gSpriteClips[i].h);
+			printf("Value of gSpriteClips[%i]'s memory loc is: %p \n\n", i, &gSpriteClips[i]);
+		}
 
-		// Render Character to the screen
-		gCharacterTexture.render(240,240);
+		// /* this is for background and character loading */
+		// // Render background texture to screen
+		// gBackgroundTexture.render(0, 0);
+
+		// // Render Character to the screen
+		// gCharacterTexture.render((SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2) - 150);
+		// /* end of background and character loading */
+
+		// Render top left sprite
+		gSpriteSheetTexture.render(0, 0, &gSpriteClips[0]);
+
+		// Render top right sprite
+		gSpriteSheetTexture.render(SCREEN_WIDTH - gSpriteClips[1].w, 0, &gSpriteClips[1]);
+
+		// Render bottom left sprite
+		gSpriteSheetTexture.render(0, SCREEN_HEIGHT - gSpriteClips[2].h, &gSpriteClips[2]);
+
+		// Render bottom right sprite
+		gSpriteSheetTexture.render(SCREEN_WIDTH - gSpriteClips[3].w, SCREEN_HEIGHT - gSpriteClips[3].h, &gSpriteClips[3]);
 
 		// Update screen
 		SDL_RenderPresent(gRenderer);

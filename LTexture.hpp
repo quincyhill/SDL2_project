@@ -1,4 +1,4 @@
-#ifndef LTEXTURE_HPP
+#ifndef LTEXTURE_HP
 #define LTEXTURE_HPP
 
 #include <string>
@@ -20,7 +20,7 @@ class LTexture
 		void freeTexture();
 
 		// Render texture at given point
-		void render(int x, int y);
+		void render(int x, int y, SDL_Rect *clip = nullptr);
 
 		// Gets image dimensions
 		int getWidth();
@@ -40,5 +40,10 @@ extern LTexture gCharacterTexture;
 
 // This is the background texture
 extern LTexture gBackgroundTexture;
+
+// Scene Sprites
+extern SDL_Rect gSpriteClips[4];
+
+extern LTexture gSpriteSheetTexture;
 
 #endif

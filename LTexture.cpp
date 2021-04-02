@@ -69,10 +69,22 @@ void LTexture::freeTexture()
 	}
 }
 
-void LTexture::render(int x, int y)
+void LTexture::render(int x, int y, SDL_Rect *clip)
 {
 	// Set rendering space and render to screen
 	SDL_Rect renderQuad = {x, y, m_width, m_height};
+
+	// Set clip rendering dimensions
+	if(clip != nullptr)
+	{
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
+	}
+
+	// The source rect, idk if this fixes anything tbh, it didn't change anything when dimensions matched
+	SDL_Rect mainSrcRect = {0, 0, 360, 360};
+
+	// Render to screen
 	SDL_RenderCopy(gRenderer, m_texture, nullptr, &renderQuad);
 }
 
@@ -89,3 +101,5 @@ int LTexture::getHeight()
 
 LTexture gCharacterTexture;
 LTexture gBackgroundTexture;
+SDL_Rect gSpriteClips[4];
+LTexture gSpriteSheetTexture;

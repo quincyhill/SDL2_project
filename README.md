@@ -1,8 +1,9 @@
 # SDL2 Project
-## Just a little things to mess with c++ and sdl2 and to learn makefiles
+## Just a little project to learn using c++, SDL2, cmake and MakeFiles
 
 ## Dependencies 
 * SDL2 (lib)
+* SDL2_image (lib)
 * lld (linker)
 * make (build tool)
 * g++ (compiler)
