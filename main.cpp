@@ -28,16 +28,13 @@ int main(int argc, char *args[])
 			// Main loop flag
 			bool quit = false;
 
-			// Event handler
-			SDL_Event e;
+			// My color struct
+			TestColorSet myColorSet = {255, 255, 255};
 
-			// // Set default current surface
-			// gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
-
-			// While the application is running
+			// While the application hasnt quit
 			while(!quit)
 			{
-				main_loop(e, &quit);
+				quit = main_loop(quit, myColorSet);
 			}
 		}
 	}

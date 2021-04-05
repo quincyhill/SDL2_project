@@ -4,3 +4,6 @@ test_game
 
 # Object files
 *.o
+
+# Localfiles
+ISSUES.md

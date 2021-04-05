@@ -14,7 +14,7 @@ enum KeyPressSurfaces
 	KEY_PRESS_SURFACE_TOTAL
 };
 
-// This are the surfaces
+// Array of key press surfaces
 extern SDL_Surface *gKeyPressSurfaces[];
 
 // Currently displayed image

@@ -16,7 +16,16 @@ extern SDL_Renderer *gRenderer;
  * Functions
  */
 
-// Loads the assets to the window
+// Load sprite sheet, is ran in loadMedia func
+bool loadSpriteData(bool success);
+
+// Load background and character test
+bool loadCharacterAndBackground(bool success);
+
+// Load images for the viewport
+bool loadViewportData(bool success);
+
+// Loads the final assets into mem
 bool loadMedia();
 
 // Loads individual image

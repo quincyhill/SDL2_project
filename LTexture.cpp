@@ -5,6 +5,7 @@
 LTexture::LTexture()
 {
 	// Constructor
+	// make sure to clear out the pointer when done
 	m_texture = nullptr;
 	m_width = 0;
 	m_height = 0;
@@ -18,7 +19,7 @@ LTexture::~LTexture()
 
 bool LTexture::loadFromFile(std::string path)
 {
-	// Get rid fo preexisting texture
+	// Get rid of pre-existing texture
 	freeTexture();
 
 	// The final texture
@@ -51,9 +52,13 @@ bool LTexture::loadFromFile(std::string path)
 		// Get rid of old loaded surface
 		SDL_FreeSurface(loadedSurface);
 	}
+
+	// Where do i set newTexture back to null? potential bug here
 	
-	// Return success
+	// Set m_texture to point to this new texture
 	m_texture = newTexture;
+
+	// returns t / f checking if m_texture is null or not
 	return m_texture != nullptr;
 }
 
@@ -63,6 +68,8 @@ void LTexture::freeTexture()
 	if(m_texture != nullptr)
 	{
 		SDL_DestroyTexture(m_texture);
+
+		// Set back to init state
 		m_texture = nullptr;
 		m_width = 0;
 		m_height = 0;
@@ -81,13 +88,18 @@ void LTexture::render(int x, int y, SDL_Rect *clip)
 		renderQuad.h = clip->h;
 	}
 
-	// The source rect, idk if this fixes anything tbh, it didn't change anything when dimensions matched
+	// The source rect, idk if this fixes anything tbh, it didn't change anything when dimensions matched, not being used atm
 	SDL_Rect mainSrcRect = {0, 0, 360, 360};
 
 	// Render to screen
 	SDL_RenderCopy(gRenderer, m_texture, nullptr, &renderQuad);
 }
 
+void LTexture::setColor(Uint8 red, Uint8 green, Uint8 blue)
+{
+	// Modulate texture
+	SDL_SetTextureColorMod(m_texture, red, green, blue);
+}
 
 int LTexture::getWidth()
 {
@@ -103,3 +115,4 @@ LTexture gCharacterTexture;
 LTexture gBackgroundTexture;
 SDL_Rect gSpriteClips[4];
 LTexture gSpriteSheetTexture;
+LTexture gModulatedTexture;

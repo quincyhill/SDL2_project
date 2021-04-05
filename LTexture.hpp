@@ -6,33 +6,36 @@
 
 class LTexture
 {
-	public:
-		// Initializes variables (aka constructor)
-		LTexture();
+public:
+	// Initializes variables (aka constructor)
+	LTexture();
 
-		// Deallocates mem (aka destructor)
-		~LTexture();
+	// Deallocates mem (aka destructor)
+	~LTexture();
 
-		// Loads image at specified path
-		bool loadFromFile(std::string path);
+	// Loads image at specified path
+	bool loadFromFile(std::string path);
 
-		// Deallocates texture
-		void freeTexture();
+	// Deallocates texture
+	void freeTexture();
 
-		// Render texture at given point
-		void render(int x, int y, SDL_Rect *clip = nullptr);
+	// Set color modulation
+	void setColor(Uint8 red, Uint8 green, Uint8 blue);
 
-		// Gets image dimensions
-		int getWidth();
-		int getHeight();
+	// Render texture at given point
+	void render(int x, int y, SDL_Rect *clip = nullptr);
 
-	private:
-		// The actual hardware texture
-		SDL_Texture *m_texture;
+	// Gets image dimensions
+	int getWidth();
+	int getHeight();
 
-		// Image dimensions
-		int m_width;
-		int m_height;
+private:
+	// The actual hardware texture
+	SDL_Texture *m_texture;
+
+	// Image dimensions
+	int m_width;
+	int m_height;
 };
 
 // This is the character texture
@@ -41,9 +44,13 @@ extern LTexture gCharacterTexture;
 // This is the background texture
 extern LTexture gBackgroundTexture;
 
-// Scene Sprites
+// Sprite clip 
 extern SDL_Rect gSpriteClips[4];
 
+// Main sheet texture
 extern LTexture gSpriteSheetTexture;
+
+// Color texture modulated by inputs
+extern LTexture gModulatedTexture;
 
 #endif

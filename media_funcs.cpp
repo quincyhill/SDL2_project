@@ -7,36 +7,8 @@ SDL_Texture *gTexture = nullptr;
 
 SDL_Renderer *gRenderer = nullptr;
 
-bool loadMedia()
+bool loadSpriteData(bool success)
 {
-	// Loading success flag
-	bool success = true;
-
-	// // Keypresses loading images
-	// success = display_from_keypress(success);
-
-	// // viewport texture
-	// gTexture = loadTexture("./assets/img/viewport.png");
-	// if(gTexture == nullptr)
-	// {
-	// 	printf("Failed to load png image!\n");
-	// 	success = false;
-	// }
-
-	// // Load Foo' texture
-	// if(!gCharacterTexture.loadFromFile("./assets/img/basiccharacter.png"))
-	// {
-	// 	printf("Failed to load Basic Character texture image!\n");
-	// 	success = false;
-	// }
-
-	// // Load Background texture
-	// if(!gBackgroundTexture.loadFromFile("./assets/img/sunnybackground.png"))
-	// {
-	// 	printf("Failed to load Background texture image!\n");
-	// 	success = false;
-	// }
-
 	// Load sprite sheet texture
 	if(!gSpriteSheetTexture.loadFromFile("./assets/img/spritesheet.png"))
 	{
@@ -69,9 +41,55 @@ bool loadMedia()
 		gSpriteClips[3].w = 180;
 		gSpriteClips[3].h = 180;
 	}
-
 	return success;
 }
+
+bool loadCharacterAndBackground(bool success)
+{
+	// Load Foo' texture
+	if(!gCharacterTexture.loadFromFile("./assets/img/basiccharacter.png"))
+	{
+		printf("Failed to load Basic Character texture image!\n");
+		success = false;
+	}
+	else
+	{
+		printf("Chracter is loaded\n");
+	}
+
+	// Load Background texture
+	if(!gBackgroundTexture.loadFromFile("./assets/img/sunnybackground.png"))
+	{
+		printf("Failed to load Background texture image!\n");
+		success = false;
+	}
+	else
+	{
+		printf("Background is loaded\n");
+	}
+	return success;
+}
+
+bool loadViewportData(bool success)
+{
+	// viewport texture
+	gTexture = loadTexture("./assets/img/viewport.png");
+	if(gTexture == nullptr)
+	{
+		printf("Failed to load png image!\n");
+		success = false;
+	}
+	return success;
+}
+
+bool loadMedia()
+{
+	// Loading success flag
+	bool success = true;
+	// nothing just white background
+	return success;
+}
+
 
 SDL_Texture *loadTexture(std::string path)
 {
