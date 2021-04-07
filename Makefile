@@ -1,14 +1,14 @@
 # SRC_FILES specifies my cpp source files
-SRC_FILES = main.cpp media_funcs.cpp window_logic.cpp key_presses.cpp LTexture.cpp
+SRC_FILES = main.cpp media_funcs.cpp window_logic.cpp key_presses.cpp L_Texture.cpp
 
 # OBJS specifies the object files that were created
-OBJS = main.o media_funcs.o window_logic.o key_presses.o LTexture.o
+OBJS = main.o media_funcs.o window_logic.o key_presses.o L_Texture.o
 
 # CXX specifies which C++ compiler we're using
 CXX=g++
 
 # DEPS specifies the set of header files the c++ files depend on.
-DEPS=media_funcs.hpp window_logic.hpp key_presses.hpp LTexture.hpp
+DEPS=media_funcs.hpp window_logic.hpp key_presses.hpp L_Texture.hpp
 
 # CXX_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings

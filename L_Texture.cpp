@@ -1,8 +1,8 @@
-#include "LTexture.hpp"
+#include "L_Texture.hpp"
 #include "media_funcs.hpp"
 #include "window_logic.hpp"
 
-LTexture::LTexture()
+L_Texture::L_Texture()
 {
 	// Constructor
 	// make sure to clear out the pointer when done
@@ -11,25 +11,25 @@ LTexture::LTexture()
 	m_height = 0;
 }
 
-LTexture::~LTexture()
+L_Texture::~L_Texture()
 {
 	// Destructor
-	freeTexture();
+	free_texture();
 }
 
-bool LTexture::loadFromFile(std::string path)
+bool L_Texture::load_from_file(std::string img_path)
 {
 	// Get rid of pre-existing texture
-	freeTexture();
+	free_texture();
 
 	// The final texture
 	SDL_Texture *newTexture = nullptr;
 
 	// Load image at specified path
-	SDL_Surface *loadedSurface = IMG_Load(path.c_str());
+	SDL_Surface *loadedSurface = IMG_Load(img_path.c_str());
 	if(loadedSurface == nullptr)
 	{
-		printf("Unable to load image %s! SDL_Error: %s\n", path.c_str(), IMG_GetError());
+		printf("Unable to load image %s! SDL_Error: %s\n", img_path.c_str(), IMG_GetError());
 	}
 	else
 	{
@@ -37,10 +37,10 @@ bool LTexture::loadFromFile(std::string path)
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xff, 0xff));
 
 		// Create texture from surface pixels
-		newTexture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+		newTexture = SDL_CreateTextureFromSurface(g_renderer, loadedSurface);
 		if(newTexture == nullptr)
 		{
-			printf("Unable to create texture from %s! SDL_Error: %s\n", path.c_str(), SDL_GetError());
+			printf("Unable to create texture from %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 		}
 		else
 		{
@@ -62,7 +62,7 @@ bool LTexture::loadFromFile(std::string path)
 	return m_texture != nullptr;
 }
 
-void LTexture::freeTexture()
+void L_Texture::free_texture()
 {
 	// Free texture if it exists
 	if(m_texture != nullptr)
@@ -76,7 +76,7 @@ void LTexture::freeTexture()
 	}
 }
 
-void LTexture::render(int x, int y, SDL_Rect *clip)
+void L_Texture::render(int x, int y, SDL_Rect *clip)
 {
 	// Set rendering space and render to screen
 	SDL_Rect renderQuad = {x, y, m_width, m_height};
@@ -92,27 +92,27 @@ void LTexture::render(int x, int y, SDL_Rect *clip)
 	SDL_Rect mainSrcRect = {0, 0, 360, 360};
 
 	// Render to screen
-	SDL_RenderCopy(gRenderer, m_texture, nullptr, &renderQuad);
+	SDL_RenderCopy(g_renderer, m_texture, nullptr, &renderQuad);
 }
 
-void LTexture::setColor(Uint8 red, Uint8 green, Uint8 blue)
+void L_Texture::set_color(Uint8 red, Uint8 green, Uint8 blue)
 {
 	// Modulate texture
 	SDL_SetTextureColorMod(m_texture, red, green, blue);
 }
 
-int LTexture::getWidth()
+int L_Texture::get_width()
 {
 	return this->m_width;
 }
 
-int LTexture::getHeight()
+int L_Texture::get_height()
 {
 	return this->m_height;
 }
 
-LTexture gCharacterTexture;
-LTexture gBackgroundTexture;
-SDL_Rect gSpriteClips[4];
-LTexture gSpriteSheetTexture;
-LTexture gModulatedTexture;
+L_Texture g_character_texture;
+L_Texture g_background_texture;
+SDL_Rect g_sprite_clips[4];
+L_Texture g_sprite_sheet_texture;
+L_Texture g_modulated_texture;

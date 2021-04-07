@@ -10,7 +10,7 @@
  * extern is used for variables and pointers functions are just the way they are
  */
 
-struct TestColorSet
+struct Test_Color_Set
 {
 	Uint8 red;
 	Uint8 green;
@@ -22,55 +22,70 @@ extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 
 // The window we'll be rendering to
-extern SDL_Window *gWindow;
+extern SDL_Window *g_window;
 
 // The surface contained by the window
-extern SDL_Surface *gScreenSurface;
+extern SDL_Surface *g_screen_surface;
 
-// The image we will load and show on the screen
-extern SDL_Surface *gHelloWorld;
+// The starter image we will load and show on the screen
+extern SDL_Surface *g_hello_world;
 
 /*
  * Functions go here
  */
 
-// Ininitialization flag responsible for setting up the window
+// Basic Window creation 
+bool create_basic_window(bool success);
+
+// Advanced Window creation 
+bool create_advanced_window(bool success);
+
+// Set texture filtering
+void set_texture_filtering();
+
+// Main initialization function
 bool init_my_window();
+
+// Close window for hello world bmp
+void close_hello_world_window();
 
 // Clears the window along with freeing memeory
 void close_my_window();
 
 // Main window loop, logic for every iteration goes here
-bool main_loop(bool quit, TestColorSet &testColor_ref);
+bool main_loop(bool quit, Test_Color_Set &test_color_ref);
 
 // Handle keypress switching, used if I have other things maps to different keys
-void handleKeyPressSwitching(SDL_Event e);
+void handle_key_press_switching(SDL_Event e);
 
 // Hanle keypress for color moduation
-void handleKeyPressColorModulation(SDL_Event e, TestColorSet &testColor_ref);
+void handle_key_press_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref);
 
 // Display simple white screen
-void displaySingleColorScreen();
+void display_single_color_screen();
+
+// Display bitmap image
+void display_bitmap_image();
 
 // Here is for displaying viewports
-void displayViewportsToScreen();
+void display_viewports_to_screen();
 
 // display some basic image
-void displayBasicNonScaledImage();
+void display_basic_non_scaled_image();
 
 // display scaled image
-void displayBasicScaledImage();
+void display_basic_scaled_image();
 
 // display screen with colors and lines
-void displayQuadsAndLines();
+void display_quads_and_lines();
 
 // display sprite clips, this one needs some fixing
-void displaySpriteClips();
+void display_sprite_clips();
 
 // display character and background to screen, this one needs some fixing
-void displayCharacterAndBackground();
+void display_character_and_background();
 
 // display sectioned screen with color moduation
-void displayColorModulation(SDL_Event e, TestColorSet &testColor_ref);
+void display_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref);
 
 #endif

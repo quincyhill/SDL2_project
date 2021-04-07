@@ -19,7 +19,7 @@ int main(int argc, char *args[])
 	else
 	{
 		// Load media
-		if(!loadMedia())
+		if(!load_media())
 		{
 			printf("Failed to load media!\n");
 		}
@@ -29,12 +29,12 @@ int main(int argc, char *args[])
 			bool quit = false;
 
 			// My color struct
-			TestColorSet myColorSet = {255, 255, 255};
+			Test_Color_Set my_color_set = {255, 255, 255};
 
 			// While the application hasnt quit
 			while(!quit)
 			{
-				quit = main_loop(quit, myColorSet);
+				quit = main_loop(quit, my_color_set);
 			}
 		}
 	}

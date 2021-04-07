@@ -1,33 +1,33 @@
-#ifndef LTEXTURE_HP
-#define LTEXTURE_HPP
+#ifndef L_TEXTURE_HP
+#define L_TEXTURE_HPP
 
 #include <string>
 #include <SDL2/SDL.h>
 
-class LTexture
+class L_Texture
 {
 public:
 	// Initializes variables (aka constructor)
-	LTexture();
+	L_Texture();
 
 	// Deallocates mem (aka destructor)
-	~LTexture();
+	~L_Texture();
 
 	// Loads image at specified path
-	bool loadFromFile(std::string path);
+	bool load_from_file(std::string img_path);
 
 	// Deallocates texture
-	void freeTexture();
+	void free_texture();
 
 	// Set color modulation
-	void setColor(Uint8 red, Uint8 green, Uint8 blue);
+	void set_color(Uint8 red, Uint8 green, Uint8 blue);
 
 	// Render texture at given point
 	void render(int x, int y, SDL_Rect *clip = nullptr);
 
 	// Gets image dimensions
-	int getWidth();
-	int getHeight();
+	int get_width();
+	int get_height();
 
 private:
 	// The actual hardware texture
@@ -39,18 +39,18 @@ private:
 };
 
 // This is the character texture
-extern LTexture gCharacterTexture;
+extern L_Texture g_character_texture;
 
 // This is the background texture
-extern LTexture gBackgroundTexture;
+extern L_Texture g_background_texture;
 
 // Sprite clip 
-extern SDL_Rect gSpriteClips[4];
+extern SDL_Rect g_sprite_clips[4];
 
 // Main sheet texture
-extern LTexture gSpriteSheetTexture;
+extern L_Texture g_sprite_sheet_texture;
 
 // Color texture modulated by inputs
-extern LTexture gModulatedTexture;
+extern L_Texture g_modulated_texture;
 
 #endif

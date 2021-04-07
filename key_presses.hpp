@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 // Can just put enums in the header rather than the cpp file just make sure to not redeclare in cpp file
-enum KeyPressSurfaces
+enum Key_Press_Surfaces
 {
 	KEY_PRESS_SURFACE_DEFAULT,
 	KEY_PRESS_SURFACE_UP,
@@ -15,10 +15,10 @@ enum KeyPressSurfaces
 };
 
 // Array of key press surfaces
-extern SDL_Surface *gKeyPressSurfaces[];
+extern SDL_Surface *g_key_press_surfaces[];
 
 // Currently displayed image
-extern SDL_Surface *gCurrentSurface;
+extern SDL_Surface *g_current_surface;
 
 /*
  * Functions
