@@ -72,6 +72,32 @@ bool load_character_and_background(bool success)
 	return success;
 }
 
+SDL_Surface *load_surface(std::string img_path)
+{
+	// Final surface
+	SDL_Surface *optimized_surface = nullptr;
+
+	// Load image at specified path
+	SDL_Surface *loaded_surface = IMG_Load(img_path.c_str());
+	if(loaded_surface == nullptr)
+	{
+		printf("Unable to load image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
+	}
+	else
+	{
+		// Convert surface to screen format
+		optimized_surface = SDL_ConvertSurface(loaded_surface, g_screen_surface->format, 0);
+		if(optimized_surface == nullptr)
+		{
+			printf("Unable to optimize image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
+		}
+		
+		// Get rid of old loaded surace
+		SDL_FreeSurface(loaded_surface);
+	}
+	return optimized_surface;
+}
+
 SDL_Texture *load_texture(std::string img_path)
 {
 	// The final texture
@@ -123,35 +149,17 @@ bool load_media()
 	// Loading success flag
 	bool success = true;
 
-	// needs g_png_surface NOT TEXTURE in this case
-	g_png_surface = load_surface("./assets/img/helloworld.png");
-
+	// // needs g_png_surface NOT TEXTURE in this case
+	// g_png_surface = load_surface("./assets/img/helloworld.png");
+	
+	// This time for texture
+	g_texture = load_texture("./assets/img/helloworld.png");
+	if(g_texture == nullptr)
+	{
+		printf("Failed to load texture image!\n");
+		success = false;
+	}
 	return success;
 }
 
 
-SDL_Surface *load_surface(std::string img_path)
-{
-	// Final surface
-	SDL_Surface *optimized_surface = nullptr;
-
-	// Load image at specified path
-	SDL_Surface *loaded_surface = IMG_Load(img_path.c_str());
-	if(loaded_surface == nullptr)
-	{
-		printf("Unable to load image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
-	}
-	else
-	{
-		// Convert surface to screen format
-		optimized_surface = SDL_ConvertSurface(loaded_surface, g_screen_surface->format, 0);
-		if(optimized_surface == nullptr)
-		{
-			printf("Unable to optimize image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
-		}
-		
-		// Get rid of old loaded surace
-		SDL_FreeSurface(loaded_surface);
-	}
-	return optimized_surface;
-}

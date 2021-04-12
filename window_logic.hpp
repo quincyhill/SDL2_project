@@ -37,10 +37,10 @@ extern SDL_Surface *g_stretched_surface;
  */
 
 // Basic Window creation 
-bool create_basic_window(bool success, std::string title);
+bool create_basic_window_surface(bool success, std::string title);
 
 // Advanced Window creation 
-bool create_advanced_window(bool success);
+bool create_basic_window_texture(bool success, std::string title);
 
 // Set texture filtering
 void set_texture_filtering();
@@ -48,8 +48,11 @@ void set_texture_filtering();
 // Main initialization function
 bool init_my_window();
 
-// Close window for simple png image
-void close_basic_window();
+// Close window for surface loaded png 
+void close_basic_window_surface();
+
+// Close window for texture loaded image
+void close_basic_window_texture();
 
 // Clears the window along with freeing memeory
 void close_my_window();
@@ -69,8 +72,11 @@ void display_single_color_screen();
 // Here is for displaying viewports
 void display_viewports_to_screen();
 
-// display some basic image
-void display_basic_non_scaled_image();
+// display some basic surface image
+void display_basic_non_scaled_surface_image();
+
+// display some basic texture image
+void display_basic_scaled_texture_image();
 
 // display scaled image
 void display_basic_scaled_image();

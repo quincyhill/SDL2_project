@@ -23,10 +23,10 @@ void set_texture_filtering()
 	}
 	return;
 }
-bool create_basic_window(bool success, std::string title)
+bool create_basic_window_surface(bool success, std::string title)
 {
 	// will not use title string for now... title.c_str();
-	g_window = SDL_CreateWindow("Test title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	g_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_window == nullptr)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -50,11 +50,10 @@ bool create_basic_window(bool success, std::string title)
 	return success;
 }
 
-bool create_advanced_window(bool success)
+bool create_basic_window_texture(bool success, std::string title)
 {
 	// Create window
-	g_window = SDL_CreateWindow("Quincy's SDL Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-
+	g_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_window == nullptr)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -64,24 +63,21 @@ bool create_advanced_window(bool success)
 	{
 		// Create renderer for window
 		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
-
 		if(g_renderer == nullptr)
 		{
-			printf("Renderer could not be created! SDL_Error: %s\n",SDL_GetError());
+			printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		}
 		else
 		{
-			// Initialize renderer color
-			// 0xff is simply 255 in hexadecimal, so white in this case
-			SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
+			// Initialize render color
+			SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff ,0xff, 0xff);
 
 			// Initialize PNG loading
-			int imgFlags = IMG_INIT_PNG;
-
-			if(!(IMG_Init(imgFlags) & imgFlags))
+			int img_flags = IMG_INIT_PNG;
+			if(!(IMG_Init(img_flags) & img_flags))
 			{
-				printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+				printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
 				success = false;
 			}
 		}
@@ -102,14 +98,16 @@ bool init_my_window()
 	}
 	else
 	{
-		// Create window here
-		success = create_basic_window(success, "Quincy's Basic Window");
+		// // Create window here
+		// success = create_basic_window_surface(success, "Quincy's Basic Window");
+		// Create window from texture here
+		success = create_basic_window_texture(success, "Quincy's Basic Window from Texture");
 		printf("Basic window initialized here\n");
 	}
 	return success;
 }
 
-void close_basic_window()
+void close_basic_window_surface()
 {
 	// Free loaded image
 	SDL_DestroyTexture(g_texture);
@@ -127,10 +125,28 @@ void close_basic_window()
 	SDL_Quit();
 }
 
+void close_basic_window_texture()
+{
+	// Free loaded images
+	SDL_DestroyTexture(g_texture);
+	g_texture = nullptr;
+
+	// Destory window
+	SDL_DestroyRenderer(g_renderer);
+	SDL_DestroyWindow(g_window);
+	g_renderer = nullptr;
+	g_window = nullptr;
+
+	// Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+}
+
+
 void close_my_window()
 {
 	// Depends on how I set up the window and its actions
-	close_basic_window();
+	close_basic_window_texture();
 }
 
 void handle_key_press_switching(SDL_Event e)
@@ -212,7 +228,7 @@ void display_viewports_to_screen()
 	return;
 }
 
-void display_basic_non_scaled_image()
+void display_basic_non_scaled_surface_image()
 {
 	// Apply the PNG Image
 	SDL_BlitSurface(g_png_surface, nullptr, g_screen_surface, nullptr);
@@ -221,6 +237,20 @@ void display_basic_non_scaled_image()
 	SDL_UpdateWindowSurface(g_window);
 	return;
 }
+
+void display_basic_scaled_texture_image()
+{
+	// Clear screen
+	SDL_RenderClear(g_renderer);
+
+	// Render texture to screen
+	SDL_RenderCopy(g_renderer, g_texture, nullptr, nullptr);
+
+	// Update screen
+	SDL_RenderPresent(g_renderer);
+	return;
+}
+
 
 void display_basic_scaled_image()
 {
@@ -401,7 +431,7 @@ bool main_loop(bool quit, SDL_Event &e_ref)
 			}
 		}
 		// *** DISPLAY RELATED CODE *** //
-		display_basic_non_scaled_image();
+		display_basic_scaled_texture_image();
 	}
 	return quit;
 }

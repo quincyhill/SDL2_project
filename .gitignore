@@ -8,6 +8,8 @@ test_game
 # Localfiles
 ISSUES.md
 
-# Depreciated
+# Depreciated, Why? cause bmp is trash, nuff said
 *.bmp
-# Why? cause bmp is trash, nuff said
+
+# Uhhhh always keep on creating this file somehow...
+\"\'\"
