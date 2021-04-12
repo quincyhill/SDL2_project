@@ -11,8 +11,9 @@ CXX=g++
 DEPS=media_funcs.hpp window_logic.hpp key_presses.hpp L_Texture.hpp
 
 # CXX_FLAGS specifies the additional compilation options we're using
-# -w suppresses all warnings
-CXX_FLAGS=-w
+# This time im allowing warnings to be shown
+# -w , for eg, suppresses all warnings
+CXX_FLAGS=
 
 # LINKER_FLAGS specifies the libraries we're linking against
 LINKER_FLAGS=-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
@@ -23,6 +24,10 @@ TARGET=test_game
 # This is the target that compiles our executable
 build: $(OBJS)
 	$(CXX) $(OBJS) $(CXX_FLAGS) $(LINKER_FLAGS) -o $(TARGET)
+
+# This is for some testing purposes
+build-main-only: main.o
+	$(CXX) main.o $(CXX_FLAGS) $(LINKER_FLAGS) -o $(TARGET)
 
 # This will be used to install the application to /usr/local/bin practice doing installs / assets and whatnot
 install: 
@@ -36,4 +41,4 @@ uninstall:
 .PHONY: clean
 
 clean:
-	rm -f *.o
+	rm -f *.o $(TARGET)

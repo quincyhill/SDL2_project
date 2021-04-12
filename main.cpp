@@ -11,7 +11,6 @@
 int main(int argc, char *args[])
 {
 	// Start up SDL and create window
-	// Internal linkeage but not defined warning.. figure this out
 	if(!init_my_window())
 	{
 		printf("Failed to initialize!\n");
@@ -25,23 +24,18 @@ int main(int argc, char *args[])
 		}
 		else
 		{
-			// Main loop flag
+			// Main window logic here
 			bool quit = false;
+			SDL_Event e;
 
-			// My color struct
-			Test_Color_Set my_color_set = {255, 255, 255};
-
-			// While the application hasnt quit
 			while(!quit)
 			{
-				quit = main_loop(quit, my_color_set);
+				quit = main_loop(quit, e);
 			}
 		}
 	}
 
 	// Free resources and close SDL
 	close_my_window();
-
 	return 0;
 }
-

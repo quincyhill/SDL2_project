@@ -12,20 +12,21 @@ SDL_Window *g_window = nullptr;
 
 SDL_Surface *g_screen_surface = nullptr;
 
-SDL_Surface *g_hello_world = nullptr;
+SDL_Surface *g_stretched_surface = nullptr;
 
 void set_texture_filtering()
 {
 	// Set texture filtering to linear, don't know if this is needed here
 	if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
 	{
-		printf("Warning: Linear texture filtering not enabled!");
+		printf("Warning: Linear texture filtering not enabled!\n");
 	}
 	return;
 }
-bool create_basic_window(bool success)
+bool create_basic_window(bool success, std::string title)
 {
-	g_window = SDL_CreateWindow("Quincy's SDL Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	// will not use title string for now... title.c_str();
+	g_window = SDL_CreateWindow("Test title", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_window == nullptr)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -33,8 +34,18 @@ bool create_basic_window(bool success)
 	}
 	else
 	{
-		// get window surface
-		g_screen_surface = SDL_GetWindowSurface(g_window);
+		// Initialize PNG loading
+		int img_flags = IMG_INIT_PNG;
+		if(!(IMG_Init(img_flags) & img_flags))
+		{
+			printf("SDL_image could not initialize! SDL_image_Error:%s\n", IMG_GetError());
+			success = false;
+		}
+		else
+		{
+			// Get window surface
+			g_screen_surface = SDL_GetWindowSurface(g_window);
+		}
 	}
 	return success;
 }
@@ -74,21 +85,6 @@ bool create_advanced_window(bool success)
 				success = false;
 			}
 		}
-
-		// // Get window surface
-		// g_screen_surface = SDL_GetWindowSurface(g_window);
-
-		// // Fill the surface white
-		// SDL_FillRect(screenSurface, nullptr, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-
-		// Delay so that the color comes in, still some issue that it doesnt always colors in white temp "fix"
-		// I saw someone do this youtube and ngl it seems kinda smart to do num/60 SDL_Delay(1000/60);
-
-		// // Update the surface
-		// SDL_UpdateWindowSurface(window);
-
-		// // Wait two seconds
-		// SDL_Delay(2000);
 	}
 	return success;
 }
@@ -106,36 +102,35 @@ bool init_my_window()
 	}
 	else
 	{
-		// uncomment if texture filtering is needed
-		// set_texture_filtering();
-
-		// chose which window to use
-		success = create_basic_window(success);
-
+		// Create window here
+		success = create_basic_window(success, "Quincy's Basic Window");
+		printf("Basic window initialized here\n");
 	}
-
 	return success;
 }
 
-void close_hello_world_window()
+void close_basic_window()
 {
-	// Deallocate surface
-	SDL_FreeSurface(g_hello_world);
-	g_hello_world = nullptr;
+	// Free loaded image
+	SDL_DestroyTexture(g_texture);
+	g_texture = nullptr;
 
-	// Destroy Window
+	// Destory Window
+	SDL_DestroyRenderer(g_renderer);
 	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
 
-	// Quit SDL Subsystems
+	g_window = nullptr;
+	g_renderer = nullptr;
+
+	// Quit SDL subsystems
+	IMG_Quit();
 	SDL_Quit();
 }
-
 
 void close_my_window()
 {
 	// Depends on how I set up the window and its actions
-	close_hello_world_window();
+	close_basic_window();
 }
 
 void handle_key_press_switching(SDL_Event e)
@@ -175,17 +170,6 @@ void display_single_color_screen()
 	SDL_RenderPresent(g_renderer);
 
 	return;
-}
-
-void display_bitmap_image()
-{
-	// Apply the image
-	SDL_BlitSurface(g_hello_world, nullptr, g_screen_surface, nullptr);
-
-	// Update the surface
-	SDL_UpdateWindowSurface(g_window);
-
-	// no need to wait since i've already programmed in the logic for looping the screen
 }
 
 void display_viewports_to_screen()
@@ -230,9 +214,10 @@ void display_viewports_to_screen()
 
 void display_basic_non_scaled_image()
 {
-	// Apply the image to screen
-	// make sure the current surface pointer has valid information
-	SDL_BlitSurface(g_current_surface, nullptr, g_screen_surface, nullptr);
+	// Apply the PNG Image
+	SDL_BlitSurface(g_png_surface, nullptr, g_screen_surface, nullptr);
+
+	// Update the surface
 	SDL_UpdateWindowSurface(g_window);
 	return;
 }
@@ -240,12 +225,12 @@ void display_basic_non_scaled_image()
 void display_basic_scaled_image()
 {
 	// Apply the stretched image
-	SDL_Rect stretchRect;
-	stretchRect.x = 0;
-	stretchRect.y = 0;
-	stretchRect.w = SCREEN_WIDTH;
-	stretchRect.h = SCREEN_HEIGHT;
-	SDL_BlitScaled(g_current_surface, nullptr, g_screen_surface, &stretchRect);
+	SDL_Rect stretch_rect;
+	stretch_rect.x = 0;
+	stretch_rect.y = 0;
+	stretch_rect.w = SCREEN_WIDTH;
+	stretch_rect.h = SCREEN_HEIGHT;
+	SDL_BlitScaled(g_current_surface, nullptr, g_screen_surface, &stretch_rect);
 
 	// Update the surface
 	SDL_UpdateWindowSurface(g_window);
@@ -308,7 +293,7 @@ void display_sprite_clips()
 	for(int i = 0; i < 4; i++)
 	{
 		printf("Value of g_sprite_clips[%i]'s x,y,w,h is: %i, %i, %i, %i\n", i, g_sprite_clips[i].x, g_sprite_clips[i].y, g_sprite_clips[i].w, g_sprite_clips[i].h);
-		printf("Value of g_sprite_clips[%i]'s memory loc is: %p \n\n", i, &g_sprite_clips[i]);
+		printf("Value of g_sprite_clips[%i]'s memory loc is: %p \n", i, &g_sprite_clips[i]);
 	}
 
 	// Render top left sprite
@@ -382,15 +367,12 @@ void display_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref)
 	return;
 }
 
-bool main_loop(bool quit, Test_Color_Set &test_color_ref)
+bool main_loop(bool quit, SDL_Event &e_ref)
 {
 	// Event handler
-	SDL_Event e;
-	// Create reference alias for quit_ref, no need to clear because all references have to point to a valid address aka NOT NULL
+	SDL_Event &e = e_ref;
 
-	// Create reference alias for test_color_ref, no need to clear because all references have to point to a valid address aka NOT NULL
-	Test_Color_Set &myTest_Color_Set = test_color_ref;
-
+	// *** KEYBOARD DRIVEN EVENTS *** //
 	// Handle events on queue
 	while(SDL_PollEvent(&e) != 0)
 	{	
@@ -418,8 +400,8 @@ bool main_loop(bool quit, Test_Color_Set &test_color_ref)
 					break;
 			}
 		}
-		/* Here goes the screen related logic */
-		display_bitmap_image();
+		// *** DISPLAY RELATED CODE *** //
+		display_basic_non_scaled_image();
 	}
 	return quit;
 }

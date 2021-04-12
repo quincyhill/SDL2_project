@@ -8,7 +8,7 @@
 * make (build tool)
 * g++ (compiler)
 * git (scm)
-
+* gdb (debugger) [optional]
 
 ## Clone Source Code
 git clone https://github.com/quincyhill/SDL2_project.git
@@ -22,3 +22,7 @@ Deletes any object files if you wish
 
 ## Run
 `$ ./test_game`
+
+## Additional Info
+bitmaps are being yeeted off this project,
+instead its better to use SDL2_image from here on

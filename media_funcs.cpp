@@ -7,6 +7,8 @@ SDL_Texture *g_texture = nullptr;
 
 SDL_Renderer *g_renderer = nullptr;
 
+SDL_Surface *g_png_surface = nullptr;
+
 bool load_sprite_data(bool success)
 {
 	// Load sprite sheet texture
@@ -70,42 +72,6 @@ bool load_character_and_background(bool success)
 	return success;
 }
 
-bool load_viewport_data(bool success)
-{
-	// viewport texture
-	g_texture = load_texture("./assets/img/viewport.png");
-	if(g_texture == nullptr)
-	{
-		printf("Failed to load png image!\n");
-		success = false;
-	}
-	return success;
-}
-
-bool load_bitmap_image(bool success, std::string img_path)
-{
-	// Load splash image
-	g_hello_world = SDL_LoadBMP(img_path.c_str());
-	if(g_hello_world == nullptr)
-	{
-		printf("Unable to load image %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
-		success = false;
-	}
-	return success;
-}
-
-bool load_media()
-{
-	// Loading success flag
-	bool success = true;
-
-	// This case im loading bitmap hello world
-	success = load_bitmap_image(success, "./assets/img/helloworld.bmp");
-
-	return success;
-}
-
-
 SDL_Texture *load_texture(std::string img_path)
 {
 	// The final texture
@@ -135,44 +101,56 @@ SDL_Texture *load_texture(std::string img_path)
 	return new_texture;
 }
 
+bool load_viewport_data(bool success)
+{
+	// viewport texture
+	g_texture = load_texture("./assets/img/viewport.png");
+	if(g_texture == nullptr)
+	{
+		printf("Failed to load png image!\n");
+		success = false;
+	}
+	return success;
+}
+
+bool load_png_image(bool success, std::string img_path)
+{
+	return true;
+}
+
+bool load_media()
+{
+	// Loading success flag
+	bool success = true;
+
+	// needs g_png_surface NOT TEXTURE in this case
+	g_png_surface = load_surface("./assets/img/helloworld.png");
+
+	return success;
+}
 
 
 SDL_Surface *load_surface(std::string img_path)
 {
-	// the final optimized image
+	// Final surface
 	SDL_Surface *optimized_surface = nullptr;
 
-	// The final texture
-	SDL_Texture *new_texture = nullptr;
-
-	// // Load image at specified path for bmp
-	// sDL_Surface *loaded_surface = SDL_LoadBMP(path.c_str());
-
-	// Load image at specified path for texture
+	// Load image at specified path
 	SDL_Surface *loaded_surface = IMG_Load(img_path.c_str());
-
 	if(loaded_surface == nullptr)
 	{
-		printf("Unable to load image %s! SDL Error: %s\n", img_path.c_str(), SDL_GetError());
+		printf("Unable to load image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 	}
 	else
 	{
-		// // Convert surface to screen format
-		// optimized_surface = SDL_ConvertSurface(loaded_surface, gScreenSurface->format, 0);
-
-		// Creae texture from surface pixels
-		new_texture = SDL_CreateTextureFromSurface(g_renderer, loaded_surface);
-		// if(optimized_surface == nullptr)
-		// {
-		// 	printf("Unable to optimize image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		// }
-
-		if (new_texture == nullptr)
+		// Convert surface to screen format
+		optimized_surface = SDL_ConvertSurface(loaded_surface, g_screen_surface->format, 0);
+		if(optimized_surface == nullptr)
 		{
-			printf("Unable to create texture from %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
+			printf("Unable to optimize image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 		}
-
-		// Get rid of old loaded surface
+		
+		// Get rid of old loaded surace
 		SDL_FreeSurface(loaded_surface);
 	}
 	return optimized_surface;

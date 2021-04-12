@@ -7,3 +7,7 @@ test_game
 
 # Localfiles
 ISSUES.md
+
+# Depreciated
+*.bmp
+# Why? cause bmp is trash, nuff said
