@@ -48,3 +48,58 @@ bool display_from_keypress(bool success)
 	}
 	return success;
 }
+
+void handle_key_press_color_modulation(SDL_Event &r_e, Test_Color_Set &r_test_color_set)
+{
+	SDL_Event &e = r_e;
+
+	Test_Color_Set &test_color_set = r_test_color_set;
+	switch(e.key.keysym.sym)
+	{
+		// Increase red
+		case SDLK_q:
+			test_color_set.red += 32;
+			break;
+
+		// Increase green
+		case SDLK_w:
+			test_color_set.green += 32;
+			break;
+
+		// Increase blue
+		case SDLK_e:
+			test_color_set.blue += 32;
+			break;
+
+		// Decrease red
+		case SDLK_a:
+			test_color_set.red -= 32;
+			break;
+
+		// Decrease green
+		case SDLK_s:
+			test_color_set.green -= 32;
+			break;
+
+		// Decrease blue
+		case SDLK_d:
+			test_color_set.blue -= 32;
+			break;
+	}
+	return;
+}
+
+void handle_key_press_output_q(SDL_Event &r_e)
+{
+	SDL_Event &e = r_e;
+
+	switch(e.key.keysym.sym)
+	{
+		case SDLK_q:
+			printf("The user pressed letter Q!\n");
+			break;
+		default:
+			break;
+	}
+	return;
+}

@@ -5,14 +5,16 @@
 
 // CONSTANTS
 // 1280 x 720 for testing purposes for window size then eventual 1080p
-const int SCREEN_WIDTH = 1280;
-const int SCREEN_HEIGHT = 720;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 SDL_Window *g_window = nullptr;
 
 SDL_Surface *g_screen_surface = nullptr;
 
 SDL_Surface *g_stretched_surface = nullptr;
+
+Test_Color_Set g_main_color_set = {255, 255, 255};
 
 void set_texture_filtering()
 {
@@ -101,6 +103,8 @@ bool init_my_window()
 		// // Create window here
 		// success = create_basic_window_surface(success, "Quincy's Basic Window");
 		// Create window from texture here
+
+		set_texture_filtering();
 		success = create_basic_window_texture(success, "Quincy's Basic Window from Texture");
 		printf("Basic window initialized here\n");
 	}
@@ -123,6 +127,7 @@ void close_basic_window_surface()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
+	return;
 }
 
 void close_basic_window_texture()
@@ -140,40 +145,32 @@ void close_basic_window_texture()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
+	return;
+}
+
+void close_color_set()
+{
+	// Free texture
+	g_modulated_texture.free_texture();
+
+	// Destroy window
+	SDL_DestroyRenderer(g_renderer);
+	SDL_DestroyWindow(g_window);
+	g_renderer = nullptr;
+	g_window = nullptr;
+
+	// Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+	return;
 }
 
 
 void close_my_window()
 {
 	// Depends on how I set up the window and its actions
-	close_basic_window_texture();
-}
-
-void handle_key_press_switching(SDL_Event e)
-{
-	switch(e.key.keysym.sym)
-	{
-		case SDLK_UP:
-			g_current_surface = g_key_press_surfaces[KEY_PRESS_SURFACE_UP];
-			break;
-
-		case SDLK_DOWN:
-			g_current_surface = g_key_press_surfaces[KEY_PRESS_SURFACE_DOWN];
-			break;
-
-		case SDLK_LEFT:
-			g_current_surface = g_key_press_surfaces[KEY_PRESS_SURFACE_LEFT];
-			break;
-
-		case SDLK_RIGHT:
-			g_current_surface = g_key_press_surfaces[KEY_PRESS_SURFACE_RIGHT];
-			break;
-
-		default:
-			g_current_surface = g_key_press_surfaces[KEY_PRESS_SURFACE_DEFAULT];
-			break;
-	}
-
+	close_color_set();
+	return;
 }
 
 void display_single_color_screen()
@@ -343,53 +340,15 @@ void display_sprite_clips()
 	return;
 }
 
-void handle_key_press_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref)
+
+void display_color_modulation()
 {
-	Test_Color_Set &myTest_Color_Set = test_color_ref;
-	switch(e.key.keysym.sym)
-	{
-		// Increase red
-		case SDLK_q:
-			myTest_Color_Set.red += 32;
-			break;
-
-		// Increase green
-		case SDLK_w:
-			myTest_Color_Set.green += 32;
-			break;
-
-		// Increase blue
-		case SDLK_e:
-			myTest_Color_Set.blue += 32;
-			break;
-
-		// Decrease red
-		case SDLK_a:
-			myTest_Color_Set.red -= 32;
-			break;
-
-		// Decrease green
-		case SDLK_s:
-			myTest_Color_Set.green -= 32;
-			break;
-
-		// Decrease blue
-		case SDLK_d:
-			myTest_Color_Set.blue -= 32;
-			break;
-	}
-	return;
-}
-
-void display_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref)
-{
-	Test_Color_Set &myTest_Color_Set = test_color_ref;
 	// Clear screen, set it white
-	SDL_SetRenderDrawColor(g_renderer, 0xcd, 0xff, 0xff, 0xff);
+	SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_RenderClear(g_renderer);
 
 	// Modulate and render texture
-	g_modulated_texture.set_color(myTest_Color_Set.red, myTest_Color_Set.green, myTest_Color_Set.blue);
+	g_modulated_texture.set_color(g_main_color_set.red, g_main_color_set.green, g_main_color_set.blue);
 	g_modulated_texture.render(0,0);
 
 	// Update screen
@@ -412,27 +371,15 @@ bool main_loop(bool quit, SDL_Event &e_ref)
 			// Changes the quit in main to true and exits via the pointer
 			quit = true;
 		}
-		// Temp pausing action on selected surface from key selected
+		// Handles events for button press downs
 		else if(e.type == SDL_KEYDOWN)
 		{
-			// This would be for color modulation
-			// handleKeyPressColorModulation(e,myTest_Color_Set);
-			// in this case theres nothing to swith to atm so dont do anything
-			// handleKeyPressSwitching(e);
-
-			// This will print q if it is held down every loop
-			switch(e.key.keysym.sym)
-			{
-				case SDLK_q:
-					printf("The user pressed letter Q!\n");
-					break;
-				default:
-					break;
-			}
+			// This will print q if it is held down every loop, put this in key_presses.cpp
+			handle_key_press_color_modulation(e,g_main_color_set);
 		}
-		// *** DISPLAY RELATED CODE *** //
-		display_basic_scaled_texture_image();
 	}
+	// *** DISPLAY RELATED CODE *** //
+	display_color_modulation();
 	return quit;
 }
 

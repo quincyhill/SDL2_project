@@ -20,6 +20,7 @@ struct Test_Color_Set
 // These are the constants for screen sizes
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
+extern Test_Color_Set g_main_color_set;
 
 // Might prepend p_ to all pointers in the future...
 
@@ -63,9 +64,6 @@ bool main_loop(bool quit, SDL_Event &e_ref);
 // Handle keypress switching, used if I have other things maps to different keys
 void handle_key_press_switching(SDL_Event e);
 
-// Hanle keypress for color moduation
-void handle_key_press_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref);
-
 // Display simple white screen
 void display_single_color_screen();
 
@@ -91,6 +89,6 @@ void display_sprite_clips();
 void display_character_and_background();
 
 // display sectioned screen with color moduation
-void display_color_modulation(SDL_Event e, Test_Color_Set &test_color_ref);
+void display_color_modulation();
 
 #endif

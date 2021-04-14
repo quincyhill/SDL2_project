@@ -4,38 +4,44 @@
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_mixer.h>
 #include <stdio.h>
+#include <string>
 #include "media_funcs.hpp"
 #include "window_logic.hpp"
-#include "key_presses.hpp"
+
+/*This source code copyrighted by Lazy Foo' Productions (2004-2020)
+and may not be redistributed without written permission.*/
 
 int main(int argc, char *args[])
 {
-	// Start up SDL and create window
+	//Start up SDL and create window
 	if(!init_my_window())
 	{
 		printf("Failed to initialize!\n");
 	}
 	else
 	{
-		// Load media
+		//Load media
 		if(!load_media())
 		{
-			printf("Failed to load media!\n");
+			printf( "Failed to load media!\n" );
 		}
 		else
-		{
-			// Main window logic here
+		{	
+			//Main loop flag
 			bool quit = false;
+
+			//Event handler
 			SDL_Event e;
 
-			while(!quit)
+			//While application is running
+			while( !quit )
 			{
 				quit = main_loop(quit, e);
 			}
 		}
 	}
-
-	// Free resources and close SDL
+	//Free resources and close SDL
 	close_my_window();
+
 	return 0;
 }

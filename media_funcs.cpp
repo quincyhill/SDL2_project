@@ -149,14 +149,10 @@ bool load_media()
 	// Loading success flag
 	bool success = true;
 
-	// // needs g_png_surface NOT TEXTURE in this case
-	// g_png_surface = load_surface("./assets/img/helloworld.png");
-	
-	// This time for texture
-	g_texture = load_texture("./assets/img/helloworld.png");
-	if(g_texture == nullptr)
+	// for color modulation
+	if(!g_modulated_texture.load_from_file("./assets/img/colors.png"))
 	{
-		printf("Failed to load texture image!\n");
+		printf("Failed to load colors texture!\n");
 		success = false;
 	}
 	return success;
