@@ -44,6 +44,9 @@ class L_Texture
 		int m_height;
 };
 
+// Walking animation
+const int WALKING_ANIMATION_FRAMES = 4;
+
 // This is the character texture
 extern L_Texture g_character_texture;
 
@@ -51,12 +54,13 @@ extern L_Texture g_character_texture;
 extern L_Texture g_background_texture;
 
 // Sprite clip 
-extern SDL_Rect g_sprite_clips[4];
+extern SDL_Rect g_sprite_clips[WALKING_ANIMATION_FRAMES];
 
 // Main sheet texture
 extern L_Texture g_sprite_sheet_texture;
 
 // Color texture modulated by inputs
 extern L_Texture g_modulated_texture;
+
 
 #endif

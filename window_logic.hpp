@@ -23,6 +23,7 @@ extern const int SCREEN_HEIGHT;
 extern Test_Color_Set g_main_color_set;
 extern Uint8 g_alpha_value;
 
+extern int animation_frame;
 // Might prepend p_ to all pointers in the future...
 
 // The window we'll be rendering to
@@ -38,13 +39,16 @@ extern SDL_Surface *g_stretched_surface;
  * Functions go here
  */
 
-// Basic Window creation 
-bool create_basic_window_surface(bool success, std::string title);
+// Create basic window with texture rendering 
+bool create_basic_window_via_surface(bool success, std::string title);
 
-// Advanced Window creation 
-bool create_basic_window_texture(bool success, std::string title);
+// Create basic window with surface rendering
+bool create_basic_window_via_texture(bool success, std::string title);
 
-// Set texture filtering
+// Create vsynced window with texture rendering
+bool create_vsynced_window_via_texture(bool success, std::string title);
+
+// Set texture filtering setting
 void set_texture_filtering();
 
 // Main initialization function
@@ -74,28 +78,31 @@ void display_single_color_screen();
 // Here is for displaying viewports
 void display_viewports_to_screen();
 
-// display some basic surface image
+// Display some basic surface image
 void display_basic_non_scaled_surface_image();
 
-// display some basic texture image
+// Display some basic texture image
 void display_basic_scaled_texture_image();
 
-// display scaled image
+// Display scaled image
 void display_basic_scaled_image();
 
-// display screen with colors and lines
+// Display screen with colors and lines
 void display_quads_and_lines();
 
-// display sprite clips, this one needs some fixing
+// Display sprite clips, this one needs some fixing
 void display_sprite_clips();
 
-// display character and background to screen, this one needs some fixing
+// Display character and background to screen, this one needs some fixing
 void display_character_and_background();
 
-// display sectioned screen with color moduation
+// Display sectioned screen with color moduation
 void display_color_modulation();
 
-// display alpha blending
+// Display alpha blending
 void display_alpha_blending();
+
+// Display animated sprites
+void display_animated_sprites();
 
 #endif

@@ -112,32 +112,35 @@ void handle_key_press_alpha_value(SDL_Event &r_e, Uint8 &r_alpha_value)
 	SDL_Event &e = r_e;
 	Uint8 &alpha_value = r_alpha_value;
 
-	// Increase alpha on w
-	if(e.key.keysym.sym == SDLK_w)
+	// Change alpha on key press
+	switch(e.key.keysym.sym)
 	{
-		// Cap if over 255
-		if(alpha_value + delta_val > max_val)
-		{
-			alpha_value = max_val;
-		}
-		else
-		{
-			// increment by 32
-			alpha_value += delta_val;
-		}
-	}
-	else if(e.key.keysym.sym == SDLK_s)
-	{
-		// Cap if below 0
-		if(alpha_value - delta_val < min_val)
-		{
-			alpha_value = min_val;
-		}
-		else
-		{
-			// decrement by 32
-			alpha_value -= delta_val;
-		}
+		case SDLK_w:
+			if(alpha_value + delta_val > max_val)
+			{
+				// max is 255
+				alpha_value = max_val;
+			}
+			else
+			{
+				// inc by 32
+				alpha_value += delta_val;
+			}
+			break;
+		case SDLK_s:
+			if(alpha_value - delta_val < min_val)
+			{
+				// min is 0
+				alpha_value = min_val;
+			}
+			else
+			{
+				// dec by 32
+				alpha_value -= delta_val;
+			}
+			break;
+		default:
+			break;
 	}
 	return;
 }

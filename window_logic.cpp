@@ -18,6 +18,8 @@ Test_Color_Set g_main_color_set = {255, 255, 255};
 
 Uint8 g_alpha_value = 255;
 
+int animation_frame = 0;
+
 void set_texture_filtering()
 {
 	// Set texture filtering to linear, don't know if this is needed here
@@ -27,9 +29,45 @@ void set_texture_filtering()
 	}
 	return;
 }
-bool create_basic_window_surface(bool success, std::string title)
+
+bool create_vsynced_window_via_texture(bool success, std::string title)
 {
-	// will not use title string for now... title.c_str();
+	// Create window
+	g_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+	if(g_window == nullptr)
+	{
+		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+		success = false;
+	}
+	else
+	{
+		// Create vsynced renderer for window
+		g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		if(g_renderer == nullptr)
+		{
+			printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+			success = false;
+		}
+		else
+		{
+			// Initialize render color
+			SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff ,0xff, 0xff);
+
+			// Initialize PNG loading
+			int img_flags = IMG_INIT_PNG;
+			if(!(IMG_Init(img_flags) & img_flags))
+			{
+				printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
+				success = false;
+			}
+		}
+	}
+	return success;
+}
+
+bool create_basic_window_via_surface(bool success, std::string title)
+{
+	// Create window
 	g_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_window == nullptr)
 	{
@@ -54,7 +92,7 @@ bool create_basic_window_surface(bool success, std::string title)
 	return success;
 }
 
-bool create_basic_window_texture(bool success, std::string title)
+bool create_basic_window_via_texture(bool success, std::string title)
 {
 	// Create window
 	g_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -102,8 +140,9 @@ bool init_my_window()
 	}
 	else
 	{
+		// we'll see if this function is needed
 		set_texture_filtering();
-		success = create_basic_window_texture(success, "Quincy's window for alpha blending");
+		success = create_vsynced_window_via_texture(success, "Quincy's dancin animated sprite");
 	}
 	return success;
 }
@@ -181,8 +220,8 @@ void close_sprite_sheets()
 
 void close_my_window()
 {
-	// This is the same for alpha as the color set
-	close_color_set();
+	// close sprite sheet stuff
+	close_sprite_sheets();
 	return;
 }
 
@@ -380,6 +419,29 @@ void display_alpha_blending()
 	return;
 }
 
+void display_animated_sprites()
+{
+	// Clear screen
+	SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
+	SDL_RenderClear(g_renderer);
+
+	// Render current frame
+	SDL_Rect *current_clip = &g_sprite_clips[animation_frame / 4];
+	g_sprite_sheet_texture.render((SCREEN_WIDTH - current_clip->w) / 2, (SCREEN_HEIGHT - current_clip->h) / 2, current_clip);
+
+	// Update screen
+	SDL_RenderPresent(g_renderer);
+
+	// Go to next frame
+	++animation_frame;
+
+	// Cycle animation
+	if(animation_frame / 4 >= WALKING_ANIMATION_FRAMES)
+	{
+		animation_frame = 0;
+	}
+}
+
 bool main_loop(bool quit, SDL_Event &e_ref)
 {
 	// Event handler
@@ -397,12 +459,12 @@ bool main_loop(bool quit, SDL_Event &e_ref)
 		// Handles events for button press downs
 		else if(e.type == SDL_KEYDOWN)
 		{
-			// key presses for alpha
-			handle_key_press_alpha_value(e, g_alpha_value);
+			// // key presses for alpha
+			// handle_key_press_alpha_value(e, g_alpha_value);
 		}
 	}
 	// *** DISPLAY RELATED CODE *** //
-	display_alpha_blending();
+	display_animated_sprites();
 	return quit;
 }
 

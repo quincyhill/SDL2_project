@@ -163,13 +163,35 @@ bool load_alpha_blending_textures(bool success)
 	return success;
 }
 
+bool load_animated_sprite_texture(bool success)
+{
+	// Load sprite sheet texture
+	if(!g_sprite_sheet_texture.load_from_file("./assets/img/characterwalkspritesheet.png"))
+	{
+		printf("Failed to load walking animation texture!\n");
+		success = false;
+	}
+	else
+	{
+		// set movement clips
+		for(int i = 0; i < 4; i++)
+		{
+			g_sprite_clips[i].x = 100 * i;
+			g_sprite_clips[i].y = 0;
+			g_sprite_clips[i].w = 100;
+			g_sprite_clips[i].h = 300;
+		}
+	}
+	return success;
+}
+
 bool load_media()
 {
 	// Loading success flag
 	bool success = true;
 
 	// for color modulation
-	success = load_alpha_blending_textures(success);
+	success = load_animated_sprite_texture(success);
 
 	return success;
 }
