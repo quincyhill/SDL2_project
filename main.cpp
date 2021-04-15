@@ -3,13 +3,9 @@
 #include <SDL2/SDL_keycode.h>
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_mixer.h>
-#include <stdio.h>
-#include <string>
-#include "media_funcs.hpp"
+#include <SDL2/SDL_image.h>
 #include "window_logic.hpp"
-
-/*This source code copyrighted by Lazy Foo' Productions (2004-2020)
-and may not be redistributed without written permission.*/
+#include "media_funcs.hpp"
 
 int main(int argc, char *args[])
 {
@@ -34,7 +30,7 @@ int main(int argc, char *args[])
 			SDL_Event e;
 
 			//While application is running
-			while( !quit )
+			while(!quit)
 			{
 				quit = main_loop(quit, e);
 			}
@@ -42,6 +38,5 @@ int main(int argc, char *args[])
 	}
 	//Free resources and close SDL
 	close_my_window();
-
 	return 0;
 }

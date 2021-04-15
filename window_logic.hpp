@@ -55,6 +55,9 @@ void close_basic_window_surface();
 // Close window for texture loaded image
 void close_basic_window_texture();
 
+// Closes window for sprite sheets
+void close_sprite_sheets();
+
 // Clears the window along with freeing memeory
 void close_my_window();
 

@@ -100,13 +100,8 @@ bool init_my_window()
 	}
 	else
 	{
-		// // Create window here
-		// success = create_basic_window_surface(success, "Quincy's Basic Window");
-		// Create window from texture here
-
 		set_texture_filtering();
-		success = create_basic_window_texture(success, "Quincy's Basic Window from Texture");
-		printf("Basic window initialized here\n");
+		success = create_basic_window_texture(success, "Quincy's window for clips");
 	}
 	return success;
 }
@@ -165,11 +160,27 @@ void close_color_set()
 	return;
 }
 
+void close_sprite_sheets()
+{
+	// Free loaded images
+	g_sprite_sheet_texture.free_texture();
+
+	// Destroy window
+	SDL_DestroyRenderer(g_renderer);
+	SDL_DestroyWindow(g_window);
+	g_renderer = nullptr;
+	g_window = nullptr;
+
+	// Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+	return;
+}
 
 void close_my_window()
 {
 	// Depends on how I set up the window and its actions
-	close_color_set();
+	close_sprite_sheets();
 	return;
 }
 
@@ -316,13 +327,6 @@ void display_sprite_clips()
 	SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
 	SDL_RenderClear(g_renderer);
 
-	// Logging data to console
-	for(int i = 0; i < 4; i++)
-	{
-		printf("Value of g_sprite_clips[%i]'s x,y,w,h is: %i, %i, %i, %i\n", i, g_sprite_clips[i].x, g_sprite_clips[i].y, g_sprite_clips[i].w, g_sprite_clips[i].h);
-		printf("Value of g_sprite_clips[%i]'s memory loc is: %p \n", i, &g_sprite_clips[i]);
-	}
-
 	// Render top left sprite
 	g_sprite_sheet_texture.render(0, 0, &g_sprite_clips[0]);
 
@@ -374,12 +378,12 @@ bool main_loop(bool quit, SDL_Event &e_ref)
 		// Handles events for button press downs
 		else if(e.type == SDL_KEYDOWN)
 		{
-			// This will print q if it is held down every loop, put this in key_presses.cpp
-			handle_key_press_color_modulation(e,g_main_color_set);
+			// // This will print q if it is held down every loop, put this in key_presses.cpp
+			// handle_key_press_color_modulation(e,g_main_color_set);
 		}
 	}
 	// *** DISPLAY RELATED CODE *** //
-	display_color_modulation();
+	display_sprite_clips();
 	return quit;
 }
 

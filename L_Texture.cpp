@@ -23,40 +23,40 @@ bool L_Texture::load_from_file(std::string img_path)
 	free_texture();
 
 	// The final texture
-	SDL_Texture *newTexture = nullptr;
+	SDL_Texture *new_texture = nullptr;
 
 	// Load image at specified path
-	SDL_Surface *loadedSurface = IMG_Load(img_path.c_str());
-	if(loadedSurface == nullptr)
+	SDL_Surface *loaded_surface = IMG_Load(img_path.c_str());
+	if(loaded_surface == nullptr)
 	{
 		printf("Unable to load image %s! SDL_Error: %s\n", img_path.c_str(), IMG_GetError());
 	}
 	else
 	{
 		// Color key image
-		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0, 0xff, 0xff));
+		SDL_SetColorKey(loaded_surface, SDL_TRUE, SDL_MapRGB(loaded_surface->format, 0, 0xff, 0xff));
 
 		// Create texture from surface pixels
-		newTexture = SDL_CreateTextureFromSurface(g_renderer, loadedSurface);
-		if(newTexture == nullptr)
+		new_texture = SDL_CreateTextureFromSurface(g_renderer, loaded_surface);
+		if(new_texture == nullptr)
 		{
 			printf("Unable to create texture from %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 		}
 		else
 		{
 			// Get image dimensions
-			m_width = loadedSurface->w;
-			m_height = loadedSurface->h;
+			m_width = loaded_surface->w;
+			m_height = loaded_surface->h;
 		}
 
 		// Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
+		SDL_FreeSurface(loaded_surface);
 	}
-
-	// Where do i set newTexture back to null? potential bug here
-	
 	// Set m_texture to point to this new texture
-	m_texture = newTexture;
+	m_texture = new_texture;
+
+	// prevent dangling pointer?
+	new_texture = nullptr;
 
 	// returns t / f checking if m_texture is null or not
 	return m_texture != nullptr;
@@ -88,11 +88,9 @@ void L_Texture::render(int x, int y, SDL_Rect *clip)
 		renderQuad.h = clip->h;
 	}
 
-	// The source rect, idk if this fixes anything tbh, it didn't change anything when dimensions matched, not being used atm
-	SDL_Rect mainSrcRect = {0, 0, 360, 360};
-
+	// Looks like I should have had clip instead of nullptr this whole time lol, I think this is my bug :)
 	// Render to screen
-	SDL_RenderCopy(g_renderer, m_texture, nullptr, &renderQuad);
+	SDL_RenderCopy(g_renderer, m_texture, clip, &renderQuad);
 }
 
 void L_Texture::set_color(Uint8 red, Uint8 green, Uint8 blue)

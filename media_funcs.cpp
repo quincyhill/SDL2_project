@@ -150,11 +150,8 @@ bool load_media()
 	bool success = true;
 
 	// for color modulation
-	if(!g_modulated_texture.load_from_file("./assets/img/colors.png"))
-	{
-		printf("Failed to load colors texture!\n");
-		success = false;
-	}
+	success = load_sprite_data(success);
+
 	return success;
 }
 
