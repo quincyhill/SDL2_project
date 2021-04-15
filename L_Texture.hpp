@@ -29,7 +29,7 @@ class L_Texture
 		void set_alpha(Uint8 alpha);
 	
 		// Render texture at given point
-		void render(int x, int y, SDL_Rect *clip = nullptr);
+		void render(int x, int y, SDL_Rect *clip = nullptr, double angle = 0.0, SDL_Point *center = nullptr, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	
 		// Gets image dimensions
 		int get_width();
@@ -62,5 +62,7 @@ extern L_Texture g_sprite_sheet_texture;
 // Color texture modulated by inputs
 extern L_Texture g_modulated_texture;
 
+// Arrow texture
+extern L_Texture g_arrow_texture;
 
 #endif

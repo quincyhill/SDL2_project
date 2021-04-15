@@ -20,20 +20,28 @@ struct Test_Color_Set
 // These are the constants for screen sizes
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
+
+// Global color set
 extern Test_Color_Set g_main_color_set;
 extern Uint8 g_alpha_value;
 
-extern int animation_frame;
-// Might prepend p_ to all pointers in the future...
+// Global animation frame
+extern int g_animation_frame;
 
-// The window we'll be rendering to
+// Global window we'll be rendering to
 extern SDL_Window *g_window;
 
-// The surface contained by the window
+// Global surface contained by the window
 extern SDL_Surface *g_screen_surface;
 
-// The stretched surface
+// Gloabl stretched surface
 extern SDL_Surface *g_stretched_surface;
+
+// Global flip type
+extern SDL_RendererFlip g_flip_type;
+
+// Global degrees value
+extern double g_degrees;
 
 /*
  * Functions go here
@@ -63,11 +71,14 @@ void close_basic_window_texture();
 // Closes window for sprite sheets
 void close_sprite_sheets();
 
+// Close arrow
+void close_arrow();
+
 // Clears the window along with freeing memeory
 void close_my_window();
 
 // Main window loop, logic for every iteration goes here
-bool main_loop(bool quit, SDL_Event &e_ref);
+bool main_loop(bool quit, SDL_Event &r_e);
 
 // Handle keypress switching, used if I have other things maps to different keys
 void handle_key_press_switching(SDL_Event e);
@@ -105,4 +116,6 @@ void display_alpha_blending();
 // Display animated sprites
 void display_animated_sprites();
 
+// Display rotation and flipping
+void display_rotation_and_flipping();
 #endif

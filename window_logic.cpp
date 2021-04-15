@@ -18,7 +18,11 @@ Test_Color_Set g_main_color_set = {255, 255, 255};
 
 Uint8 g_alpha_value = 255;
 
-int animation_frame = 0;
+int g_animation_frame = 0;
+
+double g_degrees = 0;
+
+SDL_RendererFlip g_flip_type = SDL_FLIP_NONE;
 
 void set_texture_filtering()
 {
@@ -142,7 +146,8 @@ bool init_my_window()
 	{
 		// we'll see if this function is needed
 		set_texture_filtering();
-		success = create_vsynced_window_via_texture(success, "Quincy's dancin animated sprite");
+
+		success = create_vsynced_window_via_texture(success, "Rotation and Flipping");
 	}
 	return success;
 }
@@ -205,6 +210,23 @@ void close_sprite_sheets()
 {
 	// Free loaded images
 	g_sprite_sheet_texture.free_texture();
+
+	// Destroy window
+	SDL_DestroyRenderer(g_renderer);
+	SDL_DestroyWindow(g_window);
+	g_renderer = nullptr;
+	g_window = nullptr;
+
+	// Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+	return;
+}
+
+void close_arrow()
+{
+	// Free loaded images
+	g_arrow_texture.free_texture();
 
 	// Destroy window
 	SDL_DestroyRenderer(g_renderer);
@@ -426,45 +448,57 @@ void display_animated_sprites()
 	SDL_RenderClear(g_renderer);
 
 	// Render current frame
-	SDL_Rect *current_clip = &g_sprite_clips[animation_frame / 4];
+	SDL_Rect *current_clip = &g_sprite_clips[g_animation_frame / 4];
 	g_sprite_sheet_texture.render((SCREEN_WIDTH - current_clip->w) / 2, (SCREEN_HEIGHT - current_clip->h) / 2, current_clip);
 
 	// Update screen
 	SDL_RenderPresent(g_renderer);
 
 	// Go to next frame
-	++animation_frame;
+	++g_animation_frame;
 
 	// Cycle animation
-	if(animation_frame / 4 >= WALKING_ANIMATION_FRAMES)
+	if(g_animation_frame / 4 >= WALKING_ANIMATION_FRAMES)
 	{
-		animation_frame = 0;
+		g_animation_frame = 0;
 	}
+	return;
 }
 
-bool main_loop(bool quit, SDL_Event &e_ref)
+void display_rotation_and_flipping()
 {
-	// Event handler
-	SDL_Event &e = e_ref;
+	// Clear screen
+	SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
+	SDL_RenderClear(g_renderer);
 
+	// Render arrow
+	g_arrow_texture.render((SCREEN_WIDTH - g_arrow_texture.get_width()) / 2, (SCREEN_HEIGHT - g_arrow_texture.get_height()) / 2, nullptr, g_degrees, nullptr,
+			g_flip_type);
+	
+	// Update screen
+	SDL_RenderPresent(g_renderer);
+	return;
+}
+
+bool main_loop(bool quit, SDL_Event &r_e)
+{
 	// *** KEYBOARD DRIVEN EVENTS *** //
 	// Handle events on queue
-	while(SDL_PollEvent(&e) != 0)
+	while(SDL_PollEvent(&r_e) != 0)
 	{	
 		// User requests quit
-		if(e.type == SDL_QUIT)
+		if(r_e.type == SDL_QUIT)
 		{
 			quit = true;
 		}
 		// Handles events for button press downs
-		else if(e.type == SDL_KEYDOWN)
+		else if(r_e.type == SDL_KEYDOWN)
 		{
-			// // key presses for alpha
-			// handle_key_press_alpha_value(e, g_alpha_value);
+			handle_key_press_rotation_and_flipping(r_e);
 		}
 	}
 	// *** DISPLAY RELATED CODE *** //
-	display_animated_sprites();
+	display_rotation_and_flipping();
 	return quit;
 }
 

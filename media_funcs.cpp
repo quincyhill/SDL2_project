@@ -185,13 +185,23 @@ bool load_animated_sprite_texture(bool success)
 	return success;
 }
 
+bool load_arrow_texture(bool success)
+{
+	// Load arrow texture
+	if(!g_arrow_texture.load_from_file("./assets/img/arrow.png"))
+	{
+		printf("Failed to load arrow texture!\n");
+		success = false;
+	}
+	return success;
+}
+
 bool load_media()
 {
 	// Loading success flag
 	bool success = true;
 
-	// for color modulation
-	success = load_animated_sprite_texture(success);
+	success = load_arrow_texture(success);
 
 	return success;
 }

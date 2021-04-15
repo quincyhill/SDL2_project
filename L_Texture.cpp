@@ -77,21 +77,20 @@ void L_Texture::free_texture()
 	return;
 }
 
-void L_Texture::render(int x, int y, SDL_Rect *clip)
+void L_Texture::render(int x, int y, SDL_Rect *clip, double angle, SDL_Point *center, SDL_RendererFlip flip)
 {
 	// Set rendering space and render to screen
-	SDL_Rect renderQuad = {x, y, m_width, m_height};
+	SDL_Rect render_quad = {x, y, m_width, m_height};
 
 	// Set clip rendering dimensions
 	if(clip != nullptr)
 	{
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
+		render_quad.w = clip->w;
+		render_quad.h = clip->h;
 	}
 
-	// Looks like I should have had clip instead of nullptr this whole time lol, I think this is my bug :)
 	// Render to screen
-	SDL_RenderCopy(g_renderer, m_texture, clip, &renderQuad);
+	SDL_RenderCopyEx(g_renderer, m_texture, clip, &render_quad, angle, center, flip);
 	return;
 }
 
@@ -131,3 +130,4 @@ L_Texture g_background_texture;
 SDL_Rect g_sprite_clips[4];
 L_Texture g_sprite_sheet_texture;
 L_Texture g_modulated_texture;
+L_Texture g_arrow_texture;

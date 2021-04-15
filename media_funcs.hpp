@@ -2,7 +2,8 @@
 #define MEDIA_FUNCS_HPP
 
 // This loads the png that I have put
-#include "window_logic.hpp"
+#include <SDL2/SDL.h>
+#include <string>
 
 // Image sizes are 640 x 480 unless otherwise stated, this is used for stretching testing and wrapping
 
