@@ -21,6 +21,12 @@ class L_Texture
 	
 		// Set color modulation
 		void set_color(Uint8 red, Uint8 green, Uint8 blue);
+
+		// Set blending
+		void set_blend_mode(SDL_BlendMode blending);
+
+		// Set alpha modulation
+		void set_alpha(Uint8 alpha);
 	
 		// Render texture at given point
 		void render(int x, int y, SDL_Rect *clip = nullptr);

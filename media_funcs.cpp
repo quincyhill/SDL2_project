@@ -139,9 +139,28 @@ bool load_viewport_data(bool success)
 	return success;
 }
 
-bool load_png_image(bool success, std::string img_path)
+bool load_alpha_blending_textures(bool success)
 {
-	return true;
+	// Load front alpha texture
+	if(!g_modulated_texture.load_from_file("./assets/img/fadeout.png"))
+	{
+		printf("Failed to load front texture!\n");
+		success = false;
+	}
+	else
+	{
+		// Set standard alpha bleeding
+		g_modulated_texture.set_blend_mode(SDL_BLENDMODE_BLEND);
+	}
+
+	// Load background texture
+	if(!g_background_texture.load_from_file("./assets/img/fadein.png"))
+	{
+		printf("Failed to background texture!\n");
+		success = false;
+	}
+
+	return success;
 }
 
 bool load_media()
@@ -150,7 +169,7 @@ bool load_media()
 	bool success = true;
 
 	// for color modulation
-	success = load_sprite_data(success);
+	success = load_alpha_blending_textures(success);
 
 	return success;
 }

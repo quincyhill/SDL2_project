@@ -21,6 +21,7 @@ struct Test_Color_Set
 extern const int SCREEN_WIDTH;
 extern const int SCREEN_HEIGHT;
 extern Test_Color_Set g_main_color_set;
+extern Uint8 g_alpha_value;
 
 // Might prepend p_ to all pointers in the future...
 
@@ -93,5 +94,8 @@ void display_character_and_background();
 
 // display sectioned screen with color moduation
 void display_color_modulation();
+
+// display alpha blending
+void display_alpha_blending();
 
 #endif

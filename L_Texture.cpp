@@ -74,6 +74,7 @@ void L_Texture::free_texture()
 		m_width = 0;
 		m_height = 0;
 	}
+	return;
 }
 
 void L_Texture::render(int x, int y, SDL_Rect *clip)
@@ -91,12 +92,28 @@ void L_Texture::render(int x, int y, SDL_Rect *clip)
 	// Looks like I should have had clip instead of nullptr this whole time lol, I think this is my bug :)
 	// Render to screen
 	SDL_RenderCopy(g_renderer, m_texture, clip, &renderQuad);
+	return;
 }
 
 void L_Texture::set_color(Uint8 red, Uint8 green, Uint8 blue)
 {
 	// Modulate texture
 	SDL_SetTextureColorMod(m_texture, red, green, blue);
+	return;
+}
+
+void L_Texture::set_blend_mode(SDL_BlendMode blending)
+{
+	// Set blending function
+	SDL_SetTextureBlendMode(m_texture, blending);
+	return;
+}
+
+void L_Texture::set_alpha(Uint8 alpha)
+{
+	// Modulate texture alpha
+	SDL_SetTextureAlphaMod(m_texture, alpha);
+	return;
 }
 
 int L_Texture::get_width()

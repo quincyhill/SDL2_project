@@ -103,3 +103,41 @@ void handle_key_press_output_q(SDL_Event &r_e)
 	}
 	return;
 }
+
+void handle_key_press_alpha_value(SDL_Event &r_e, Uint8 &r_alpha_value)
+{
+	Uint8 max_val = 0xff;
+	Uint8 min_val = 0x00;
+	Uint8 delta_val = 0x20;
+	SDL_Event &e = r_e;
+	Uint8 &alpha_value = r_alpha_value;
+
+	// Increase alpha on w
+	if(e.key.keysym.sym == SDLK_w)
+	{
+		// Cap if over 255
+		if(alpha_value + delta_val > max_val)
+		{
+			alpha_value = max_val;
+		}
+		else
+		{
+			// increment by 32
+			alpha_value += delta_val;
+		}
+	}
+	else if(e.key.keysym.sym == SDLK_s)
+	{
+		// Cap if below 0
+		if(alpha_value - delta_val < min_val)
+		{
+			alpha_value = min_val;
+		}
+		else
+		{
+			// decrement by 32
+			alpha_value -= delta_val;
+		}
+	}
+	return;
+}

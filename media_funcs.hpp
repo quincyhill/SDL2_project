@@ -31,6 +31,9 @@ bool load_viewport_data(bool success);
 // Load png image, remeber to use .c_str at the end of the std::string so everything `fits`
 bool load_png_image(bool success, std::string img_path);
 
+// Load alpha blending textures
+bool load_alpha_blending_textures(bool success);
+
 // Loads the final assets into mem, should eventually allow arrays of paths to load ALL the media sources
 bool load_media();
 

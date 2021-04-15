@@ -33,4 +33,7 @@ void handle_key_press_color_modulation(SDL_Event &r_e, Test_Color_Set &r_test_co
 
 // Handle keypress for outputting the letter q, for testing purposes
 void handle_key_press_output_q(SDL_Event &r_e);
+
+// Handle keypress for changing alpha values
+void handle_key_press_alpha_value(SDL_Event &r_e, Uint8 &r_alpha_value);
 #endif

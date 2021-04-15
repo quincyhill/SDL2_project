@@ -5,8 +5,8 @@
 
 // CONSTANTS
 // 1280 x 720 for testing purposes for window size then eventual 1080p
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 1280;
+const int SCREEN_HEIGHT = 720;
 
 SDL_Window *g_window = nullptr;
 
@@ -15,6 +15,8 @@ SDL_Surface *g_screen_surface = nullptr;
 SDL_Surface *g_stretched_surface = nullptr;
 
 Test_Color_Set g_main_color_set = {255, 255, 255};
+
+Uint8 g_alpha_value = 255;
 
 void set_texture_filtering()
 {
@@ -101,7 +103,7 @@ bool init_my_window()
 	else
 	{
 		set_texture_filtering();
-		success = create_basic_window_texture(success, "Quincy's window for clips");
+		success = create_basic_window_texture(success, "Quincy's window for alpha blending");
 	}
 	return success;
 }
@@ -179,8 +181,8 @@ void close_sprite_sheets()
 
 void close_my_window()
 {
-	// Depends on how I set up the window and its actions
-	close_sprite_sheets();
+	// This is the same for alpha as the color set
+	close_color_set();
 	return;
 }
 
@@ -353,7 +355,25 @@ void display_color_modulation()
 
 	// Modulate and render texture
 	g_modulated_texture.set_color(g_main_color_set.red, g_main_color_set.green, g_main_color_set.blue);
-	g_modulated_texture.render(0,0);
+	g_modulated_texture.render(0, 0);
+
+	// Update screen
+	SDL_RenderPresent(g_renderer);
+	return;
+}
+
+void display_alpha_blending()
+{
+	// Clear screen
+	SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
+	SDL_RenderClear(g_renderer);
+
+	// Render background
+	g_background_texture.render(0, 0);
+
+	// Render front blended
+	g_modulated_texture.set_alpha(g_alpha_value);
+	g_modulated_texture.render(0, 0);
 
 	// Update screen
 	SDL_RenderPresent(g_renderer);
@@ -372,18 +392,17 @@ bool main_loop(bool quit, SDL_Event &e_ref)
 		// User requests quit
 		if(e.type == SDL_QUIT)
 		{
-			// Changes the quit in main to true and exits via the pointer
 			quit = true;
 		}
 		// Handles events for button press downs
 		else if(e.type == SDL_KEYDOWN)
 		{
-			// // This will print q if it is held down every loop, put this in key_presses.cpp
-			// handle_key_press_color_modulation(e,g_main_color_set);
+			// key presses for alpha
+			handle_key_press_alpha_value(e, g_alpha_value);
 		}
 	}
 	// *** DISPLAY RELATED CODE *** //
-	display_sprite_clips();
+	display_alpha_blending();
 	return quit;
 }
 
