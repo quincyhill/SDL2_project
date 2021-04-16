@@ -126,6 +126,13 @@ bool create_basic_window_via_texture(bool success, std::string title)
 				printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
 				success = false;
 			}
+
+			// Initialize SDL_ttf
+			if(TTF_Init() == -1)
+			{
+				printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+				success = false;
+			}
 		}
 	}
 	return success;
@@ -147,7 +154,7 @@ bool init_my_window()
 		// we'll see if this function is needed
 		set_texture_filtering();
 
-		success = create_vsynced_window_via_texture(success, "Rotation and Flipping");
+		success = create_basic_window_via_texture(success, "Fonts and Stuff");
 	}
 	return success;
 }
@@ -240,10 +247,32 @@ void close_arrow()
 	return;
 }
 
+void close_fonts()
+{
+	// Free loaded images
+	g_text_texture.free_texture();
+
+	// Free global font
+	TTF_CloseFont(g_p_font);
+	g_p_font = nullptr;
+
+	// Destroy window
+	SDL_DestroyRenderer(g_renderer);
+	SDL_DestroyWindow(g_window);
+	g_renderer = nullptr;
+	g_window = nullptr;
+
+	// Quit SDL subsystems
+	TTF_Quit();
+	IMG_Quit();
+	SDL_Quit();
+	return;
+}
+
 void close_my_window()
 {
 	// close sprite sheet stuff
-	close_sprite_sheets();
+	close_fonts();
 	return;
 }
 
@@ -480,6 +509,20 @@ void display_rotation_and_flipping()
 	return;
 }
 
+void display_font()
+{
+	// Clear screen
+	SDL_SetRenderDrawColor(g_renderer, 0xff, 0xff, 0xff, 0xff);
+	SDL_RenderClear(g_renderer);
+
+	// Render current frame
+	g_text_texture.render((SCREEN_WIDTH - g_text_texture.get_width()) / 2,(SCREEN_HEIGHT - g_text_texture.get_height()) / 2);
+
+	// Update screen
+	SDL_RenderPresent(g_renderer);
+	return;
+}
+
 bool main_loop(bool quit, SDL_Event &r_e)
 {
 	// *** KEYBOARD DRIVEN EVENTS *** //
@@ -494,11 +537,12 @@ bool main_loop(bool quit, SDL_Event &r_e)
 		// Handles events for button press downs
 		else if(r_e.type == SDL_KEYDOWN)
 		{
-			handle_key_press_rotation_and_flipping(r_e);
+			// just prints q
+			handle_key_press_output_q(r_e);
 		}
 	}
 	// *** DISPLAY RELATED CODE *** //
-	display_rotation_and_flipping();
+	display_font();
 	return quit;
 }
 

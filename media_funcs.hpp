@@ -35,6 +35,9 @@ bool load_png_image(bool success, std::string img_path);
 // Load alpha blending textures
 bool load_alpha_blending_textures(bool success);
 
+// Load font texture
+bool load_font_texture(bool success);
+
 // Loads the final assets into mem, should eventually allow arrays of paths to load ALL the media sources
 bool load_media();
 

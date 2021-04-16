@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <stdio.h>
 
@@ -74,6 +75,9 @@ void close_sprite_sheets();
 // Close arrow
 void close_arrow();
 
+// Closes window for fonts
+void close_fonts();
+
 // Clears the window along with freeing memeory
 void close_my_window();
 
@@ -118,4 +122,7 @@ void display_animated_sprites();
 
 // Display rotation and flipping
 void display_rotation_and_flipping();
+
+// Display true tone fonts
+void display_font();
 #endif

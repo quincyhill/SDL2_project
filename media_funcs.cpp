@@ -196,12 +196,34 @@ bool load_arrow_texture(bool success)
 	return success;
 }
 
+bool load_font_texture(bool success)
+{
+	// Open the font
+	g_p_font = TTF_OpenFont("./assets/fonts/Lobster-Regular.ttf", 28);
+	if(g_p_font == nullptr)
+	{
+		printf("Failed to load Lobster-Regular font! SDL_ttf Error: %s\n", TTF_GetError());
+		success = false;
+	}
+	else
+	{
+		// Render text
+		SDL_Color text_color = {0x00, 0x00, 0x00};
+		if(!g_text_texture.load_from_rendered_text("The quick brown fox jumps over the lazy dog", text_color))
+		{
+			printf("Failed to render text texture!\n");
+			success = false;
+		}
+	}
+	return success;
+}
+
 bool load_media()
 {
 	// Loading success flag
 	bool success = true;
 
-	success = load_arrow_texture(success);
+	success = load_font_texture(success);
 
 	return success;
 }

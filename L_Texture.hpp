@@ -1,8 +1,12 @@
 #ifndef L_TEXTURE_HP
 #define L_TEXTURE_HPP
 
-#include <string>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <stdio.h>
+#include <string>
+#include <cmath>
 
 class L_Texture
 {
@@ -15,6 +19,9 @@ class L_Texture
 	
 		// Loads image at specified path
 		bool load_from_file(std::string img_path);
+
+		// Loads image from font string
+		bool load_from_rendered_text(std::string texture_text, SDL_Color text_color);
 	
 		// Deallocates texture
 		void free_texture();
@@ -65,4 +72,9 @@ extern L_Texture g_modulated_texture;
 // Arrow texture
 extern L_Texture g_arrow_texture;
 
+// Globally used font
+extern TTF_Font *g_p_font;
+
+// Rendered text texture
+extern L_Texture g_text_texture;
 #endif
