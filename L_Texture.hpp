@@ -20,8 +20,11 @@ class L_Texture
 		// Loads image at specified path
 		bool load_from_file(std::string img_path);
 
+		// The #if means the compiler will ignore this function unless I include SDL_ttf, that Way I don't have to delete this if im not using that library
+		#if defined(SDL_TTF_MAJOR_VERSION)
 		// Loads image from font string
 		bool load_from_rendered_text(std::string texture_text, SDL_Color text_color);
+		#endif
 	
 		// Deallocates texture
 		void free_texture();
@@ -44,7 +47,7 @@ class L_Texture
 	
 	private:
 		// The actual hardware texture
-		SDL_Texture *m_texture;
+		SDL_Texture *m_p_texture;
 	
 		// Image dimensions
 		int m_width;
@@ -77,4 +80,8 @@ extern TTF_Font *g_p_font;
 
 // Rendered text texture
 extern L_Texture g_text_texture;
+
+// Other constants
+extern L_Texture g_button_sprite_sheet_texture;
+
 #endif

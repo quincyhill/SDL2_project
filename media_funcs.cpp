@@ -3,11 +3,11 @@
 #include "key_presses.hpp"
 #include "L_Texture.hpp"
 
-SDL_Texture *g_texture = nullptr;
+SDL_Texture *g_p_texture = nullptr;
 
-SDL_Renderer *g_renderer = nullptr;
+SDL_Renderer *g_p_renderer = nullptr;
 
-SDL_Surface *g_png_surface = nullptr;
+SDL_Surface *g_p_png_surface = nullptr;
 
 bool load_sprite_data(bool success)
 {
@@ -72,66 +72,66 @@ bool load_character_and_background(bool success)
 	return success;
 }
 
-SDL_Surface *load_surface(std::string img_path)
+SDL_Surface *p_load_surface(std::string img_path)
 {
 	// Final surface
-	SDL_Surface *optimized_surface = nullptr;
+	SDL_Surface *p_optimized_surface = nullptr;
 
 	// Load image at specified path
-	SDL_Surface *loaded_surface = IMG_Load(img_path.c_str());
-	if(loaded_surface == nullptr)
+	SDL_Surface *p_loaded_surface = IMG_Load(img_path.c_str());
+	if(p_loaded_surface == nullptr)
 	{
 		printf("Unable to load image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 	}
 	else
 	{
 		// Convert surface to screen format
-		optimized_surface = SDL_ConvertSurface(loaded_surface, g_screen_surface->format, 0);
-		if(optimized_surface == nullptr)
+		p_optimized_surface = SDL_ConvertSurface(p_loaded_surface, g_p_screen_surface->format, 0);
+		if(p_optimized_surface == nullptr)
 		{
 			printf("Unable to optimize image: %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 		}
 		
 		// Get rid of old loaded surace
-		SDL_FreeSurface(loaded_surface);
+		SDL_FreeSurface(p_loaded_surface);
 	}
-	return optimized_surface;
+	return p_optimized_surface;
 }
 
 SDL_Texture *load_texture(std::string img_path)
 {
 	// The final texture
-	SDL_Texture *new_texture = nullptr;
+	SDL_Texture *p_new_texture = nullptr;
 
 	// Load image at specified path
-	SDL_Surface *loaded_surface = IMG_Load(img_path.c_str());
+	SDL_Surface *p_loaded_surface = IMG_Load(img_path.c_str());
 
-	if(loaded_surface == nullptr)
+	if(p_loaded_surface == nullptr)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", img_path.c_str(), IMG_GetError());
 	}
 	else
 	{
 		// Create texture from surface pixels
-		new_texture = SDL_CreateTextureFromSurface(g_renderer, loaded_surface);
+		p_new_texture = SDL_CreateTextureFromSurface(g_p_renderer, p_loaded_surface);
 
-		if(new_texture == nullptr)
+		if(p_new_texture == nullptr)
 		{
 			printf("Unable to create texture from %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 		}
 
 		// Get rid of old loaded surface
-		SDL_FreeSurface(loaded_surface);
+		SDL_FreeSurface(p_loaded_surface);
 	}
 
-	return new_texture;
+	return p_new_texture;
 }
 
 bool load_viewport_data(bool success)
 {
 	// viewport texture
-	g_texture = load_texture("./assets/img/viewport.png");
-	if(g_texture == nullptr)
+	g_p_texture = load_texture("./assets/img/viewport.png");
+	if(g_p_texture == nullptr)
 	{
 		printf("Failed to load png image!\n");
 		success = false;
@@ -139,7 +139,7 @@ bool load_viewport_data(bool success)
 	return success;
 }
 
-bool load_alpha_blending_textures(bool success)
+bool load_alpha_blending_p_textures(bool success)
 {
 	// Load front alpha texture
 	if(!g_modulated_texture.load_from_file("./assets/img/fadeout.png"))

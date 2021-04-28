@@ -30,13 +30,13 @@ extern Uint8 g_alpha_value;
 extern int g_animation_frame;
 
 // Global window we'll be rendering to
-extern SDL_Window *g_window;
+extern SDL_Window *g_p_window;
 
 // Global surface contained by the window
-extern SDL_Surface *g_screen_surface;
+extern SDL_Surface *g_p_screen_surface;
 
 // Gloabl stretched surface
-extern SDL_Surface *g_stretched_surface;
+extern SDL_Surface *g_p_stretched_surface;
 
 // Global flip type
 extern SDL_RendererFlip g_flip_type;
@@ -53,6 +53,9 @@ bool create_basic_window_via_surface(bool success, std::string title);
 
 // Create basic window with surface rendering
 bool create_basic_window_via_texture(bool success, std::string title);
+
+// Create basic window with surface rendering with ttf library
+bool create_basic_window_via_texture_with_ttf(bool success, std::string title);
 
 // Create vsynced window with texture rendering
 bool create_vsynced_window_via_texture(bool success, std::string title);
@@ -125,4 +128,5 @@ void display_rotation_and_flipping();
 
 // Display true tone fonts
 void display_font();
+
 #endif

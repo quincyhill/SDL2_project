@@ -2,9 +2,9 @@
 #include "window_logic.hpp"
 #include "media_funcs.hpp"
 
-SDL_Surface *g_key_press_surfaces[KEY_PRESS_SURFACE_TOTAL];
+SDL_Surface *g_p_key_press_surfaces[KEY_PRESS_SURFACE_TOTAL];
 
-SDL_Surface *g_current_surface = nullptr;
+SDL_Surface *g_p_current_surface = nullptr;
 
 void handle_key_press_color_modulation(SDL_Event &r_e)
 {

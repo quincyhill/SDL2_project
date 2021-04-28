@@ -15,10 +15,10 @@ enum Key_Press_Surfaces
 };
 
 // Array of key press surfaces
-extern SDL_Surface *g_key_press_surfaces[];
+extern SDL_Surface *g_p_key_press_surfaces[];
 
 // Currently displayed image
-extern SDL_Surface *g_current_surface;
+extern SDL_Surface *g_p_current_surface;
 
 /*
  * Functions
