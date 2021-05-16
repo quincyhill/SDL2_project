@@ -1,6 +1,5 @@
 #ifndef WINDOW_LOGIC_HPP
 #define WINDOW_LOGIC_HPP
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
@@ -78,8 +77,10 @@ void close_sprite_sheets();
 // Close arrow
 void close_arrow();
 
+#if defined(SDL_TTF_MAJOR_VERSION)
 // Closes window for fonts
 void close_fonts();
+#endif
 
 // Clears the window along with freeing memeory
 void close_my_window();
@@ -126,7 +127,12 @@ void display_animated_sprites();
 // Display rotation and flipping
 void display_rotation_and_flipping();
 
+#if defined(SDL_TTF_MAJOR_VERSION)
 // Display true tone fonts
 void display_font();
+#endif
+
+// Display Buttons
+void display_buttons();
 
 #endif

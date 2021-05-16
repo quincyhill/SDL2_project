@@ -1,11 +1,9 @@
-#include "L_Texture.hpp"
-#include "media_funcs.hpp"
-#include "window_logic.hpp"
+#include "../include/L_Texture.hpp"
+#include "../include/media_funcs.hpp"
+#include "../include/window_logic.hpp"
 
 L_Texture::L_Texture()
 {
-	// Constructor
-	// make sure to clear out the pointer when done
 	m_p_texture = nullptr;
 	m_width = 0;
 	m_height = 0;
@@ -13,7 +11,6 @@ L_Texture::L_Texture()
 
 L_Texture::~L_Texture()
 {
-	// Destructor
 	free_texture();
 }
 
@@ -168,5 +165,7 @@ L_Texture g_sprite_sheet_texture;
 L_Texture g_modulated_texture;
 L_Texture g_arrow_texture;
 L_Texture g_text_texture;
+#if defined(SDL_TTF_MAJOR_VERSION)
 TTF_Font *g_p_font = nullptr;
+#endif
 L_Texture g_button_sprite_sheet_texture;

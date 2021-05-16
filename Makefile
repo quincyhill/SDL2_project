@@ -1,44 +1,63 @@
-# SRC_FILES specifies my cpp source files
-SRC_FILES = main.cpp media_funcs.cpp window_logic.cpp key_presses.cpp L_Texture.cpp L_Button.cpp
+SRC_FILES = src/main.cpp src/media_funcs.cpp src/window_logic.cpp src/key_presses.cpp src/L_Texture.cpp src/L_Button.cpp
 
-# OBJS specifies the object files that were created
-OBJS = main.o media_funcs.o window_logic.o key_presses.o L_Texture.o L_Button.o
+OBJ_FILES = obj/main.o obj/media_funcs.o obj/window_logic.o obj/key_presses.o obj/L_Texture.o obj/L_Button.o
 
-# CXX specifies which C++ compiler we're using
+DEP_FILES = include/L_Texture.hpp include/L_Button.hpp include/key_presses.hpp include/media_funcs.hpp include/window_logic.hpp
+
 CXX=g++
 
-# DEPS specifies the set of header files the c++ files depend on.
-DEPS=media_funcs.hpp window_logic.hpp key_presses.hpp L_Texture.hpp L_Button.hpp
+# Figure out how to use this for folders
+IDIR=include
+
+SRCDIR=src
+
+ODIR=obj
 
 # CXX_FLAGS specifies the additional compilation options we're using
 # This time im allowing warnings to be shown
 # -w , for eg, suppresses all warnings
-CXX_FLAGS=
+CXX_FLAGS=""
 
-# LINKER_FLAGS specifies the libraries we're linking against
-LINKER_FLAGS=-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
+# LDFLAGS specifies the libraries we're linking against
+LDFLAGS=-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
-# TARGET speciies the name of our exectuable
-TARGET=test_game
+TARGET=build/game
 
-# This is the target that compiles our executable
-build: $(OBJS)
-	$(CXX) $(OBJS) $(CXX_FLAGS) $(LINKER_FLAGS) -o $(TARGET)
+build: $(OBJ_FILES)
+	$(CXX) $(OBJ_FILES) $(LDFLAGS) -o $(TARGET) 
+	# $(CXX) $(OBJ_FILES) $(CXX_FLAGS) $(LDFLAGS) -o $(TARGET) 
 
-# This is for some testing purposes
-build-main-only: main.o
-	$(CXX) main.o $(CXX_FLAGS) $(LINKER_FLAGS) -o $(TARGET)
+# This create final build for main only test
+build-main-only: obj/main.o
+	$(CXX) $^ -o $(TARGET)
 
-# This will be used to install the application to /usr/local/bin practice doing installs / assets and whatnot
+# This builds the main.o object file
+obj/main.o: src/main.cpp include/window_logic.hpp include/media_funcs.hpp
+	g++ -g -c $< -o $@
+
+obj/media_funcs.o: src/media_funcs.cpp include/media_funcs.hpp include/window_logic.hpp include/key_presses.hpp include/L_Texture.hpp
+	g++ -g -c $< -o $@
+
+obj/window_logic.o: src/window_logic.cpp include/window_logic.hpp include/key_presses.hpp include/media_funcs.hpp include/L_Texture.hpp include/L_Button.hpp
+	g++ -g -c $< -o $@
+
+obj/key_presses.o: src/key_presses.cpp include/key_presses.hpp include/window_logic.hpp include/media_funcs.hpp
+	g++ -g -c $< -o $@
+
+obj/L_Texture.o: src/L_Texture.cpp include/L_Texture.hpp include/media_funcs.hpp include/window_logic.hpp
+	g++ -g -c $< -o $@
+
+obj/L_Button.o: src/L_Button.cpp include/L_Button.hpp include/L_Texture.hpp
+	g++ -g -c $< -o $@
+
 install: 
-	# Nothing yet
+	echo "Nothing yet"
 
-# This will uninstall the executable from /usr/local/bin as well as assets
 uninstall:
-	# Nothing yet
+	echo "Nothing yet either"
 
 # I need to see what the .PHONY means again
 .PHONY: clean
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f obj/*.o $(TARGET)

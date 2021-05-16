@@ -1,5 +1,5 @@
-#include "L_Button.hpp"
-#include "L_Texture.hpp"
+#include "../include/L_Button.hpp"
+#include "../include/L_Texture.hpp"
 
 // Button constants
 const int BUTTON_WIDTH = 300;

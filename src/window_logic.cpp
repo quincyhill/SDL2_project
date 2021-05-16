@@ -1,8 +1,8 @@
-#include "window_logic.hpp"
-#include "key_presses.hpp"
-#include "media_funcs.hpp"
-#include "L_Texture.hpp"
-#include "L_Button.hpp"
+#include "../include/window_logic.hpp"
+#include "../include/key_presses.hpp"
+#include "../include/media_funcs.hpp"
+#include "../include/L_Texture.hpp"
+#include "../include/L_Button.hpp"
 
 // CONSTANTS
 // 1280 x 720 for testing purposes for window size then eventual 1080p
@@ -193,7 +193,8 @@ bool init_my_window()
 		// we'll see if this function is needed
 		set_texture_filtering();
 
-		success = create_basic_window_via_texture_with_ttf(success, "Mouse Events");
+		// Not using ttf for mouse events so I switched the function
+		success = create_basic_window_via_texture(success, "Mouse Events");
 	}
 	return success;
 }
@@ -286,6 +287,7 @@ void close_arrow()
 	return;
 }
 
+#if defined(SDL_TTF_MAJOR_VERSION)
 void close_fonts()
 {
 	// Free loaded images
@@ -307,11 +309,29 @@ void close_fonts()
 	SDL_Quit();
 	return;
 }
+#endif
+
+void close_buttons()
+{
+	// Free loaded textures
+	g_button_sprite_sheet_texture.free_texture();
+
+	// Destroy window
+	SDL_DestroyRenderer(g_p_renderer);
+	SDL_DestroyWindow(g_p_window);
+	g_p_renderer = nullptr;
+	g_p_window = nullptr;
+
+	// Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+	return;
+}
 
 void close_my_window()
 {
 	// close sprite sheet stuff
-	close_fonts();
+	close_buttons();
 	return;
 }
 
@@ -548,14 +568,32 @@ void display_rotation_and_flipping()
 	return;
 }
 
+#if defined(SDL_TTF_MAJOR_VERSION)
 void display_font()
 {
-	// Clear screen
+	// Set screen white
 	SDL_SetRenderDrawColor(g_p_renderer, 0xff, 0xff, 0xff, 0xff);
+
+	// Clear screen
 	SDL_RenderClear(g_p_renderer);
 
 	// Render current frame
 	g_text_texture.render((SCREEN_WIDTH - g_text_texture.get_width()) / 2,(SCREEN_HEIGHT - g_text_texture.get_height()) / 2);
+
+	// Update screen
+	SDL_RenderPresent(g_p_renderer);
+	return;
+}
+#endif
+
+void display_buttons()
+{
+	// This for now will just show a blank white screen
+	// Set screen white
+	SDL_SetRenderDrawColor(g_p_renderer, 0xff, 0xff, 0xff, 0xff);
+
+	// Clear screen
+	SDL_RenderClear(g_p_renderer);
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
@@ -576,12 +614,12 @@ bool main_loop(bool quit, SDL_Event &r_e)
 		// Handles events for button press downs
 		else if(r_e.type == SDL_KEYDOWN)
 		{
-			// just prints q
+			// just prints q for logging purposes
 			handle_key_press_output_q(r_e);
 		}
 	}
 	// *** DISPLAY RELATED CODE *** //
-	display_font();
+	display_buttons();
 	return quit;
 }
 

@@ -75,8 +75,10 @@ extern L_Texture g_modulated_texture;
 // Arrow texture
 extern L_Texture g_arrow_texture;
 
+#if defined(SDL_TTF_MAJOR_VERSION)
 // Globally used font
 extern TTF_Font *g_p_font;
+#endif
 
 // Rendered text texture
 extern L_Texture g_text_texture;

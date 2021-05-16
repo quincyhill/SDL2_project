@@ -1,9 +1,8 @@
 # This is the executable
-game
-test_game
+build/*
 
 # Object files
-*.o
+obj/*.o
 
 # Localfiles
 ISSUES.md

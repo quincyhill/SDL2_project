@@ -30,12 +30,15 @@ In this order
 Builds the game demo
 `$ make build`
 
-Deletes any object files if you wish
+Cleans up object files and removes binary
 `$ make clean`
 
 ## Run
-`$ ./test_game`
+`$ ./build/game`
 
 ## Additional Info
 bitmaps are being yeeted off this project,
 instead its better to use SDL2_image from here on
+
+## Up Next
+Implementing gdb and unit testing as this project grows

@@ -1,6 +1,6 @@
-#include "key_presses.hpp"
-#include "window_logic.hpp"
-#include "media_funcs.hpp"
+#include "../include/key_presses.hpp"
+#include "../include/window_logic.hpp"
+#include "../include/media_funcs.hpp"
 
 SDL_Surface *g_p_key_press_surfaces[KEY_PRESS_SURFACE_TOTAL];
 
@@ -118,4 +118,3 @@ void handle_key_press_rotation_and_flipping(SDL_Event &r_e)
 	}
 	return;
 }
-

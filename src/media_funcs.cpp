@@ -1,7 +1,7 @@
-#include "media_funcs.hpp" 
-#include "window_logic.hpp"
-#include "key_presses.hpp"
-#include "L_Texture.hpp"
+#include "../include/media_funcs.hpp" 
+#include "../include/window_logic.hpp"
+#include "../include/key_presses.hpp"
+#include "../include/L_Texture.hpp"
 
 SDL_Texture *g_p_texture = nullptr;
 
@@ -54,20 +54,11 @@ bool load_character_and_background(bool success)
 		printf("Failed to load Basic Character texture image!\n");
 		success = false;
 	}
-	else
-	{
-		printf("Chracter is loaded\n");
-	}
-
 	// Load Background texture
 	if(!g_background_texture.load_from_file("./assets/img/sunnybackground.png"))
 	{
 		printf("Failed to load Background texture image!\n");
 		success = false;
-	}
-	else
-	{
-		printf("Background is loaded\n");
 	}
 	return success;
 }
@@ -196,6 +187,7 @@ bool load_arrow_texture(bool success)
 	return success;
 }
 
+#if defined(SDL_TTF_MAJOR_VERSION)
 bool load_font_texture(bool success)
 {
 	// Open the font
@@ -217,13 +209,60 @@ bool load_font_texture(bool success)
 	}
 	return success;
 }
+#endif
+
+bool load_mouse_button_texture(bool success)
+{
+	// Load all 4 mouse textures
+	if(!g_button_sprite_sheet_texture.load_from_file("./assets/img/mouse_clicks/mousemovedout.png"))
+	{
+		printf("Failed to load mouse move out texture!\n");
+		success = false;
+	}
+	else
+	{
+		printf("loaded mouse move out texture!");
+	}
+
+	if(!g_button_sprite_sheet_texture.load_from_file("./assets/img/mouse_clicks/mouseover.png"))
+	{
+		printf("Failed to load mouse over texture!\n");
+		success = false;
+	}
+	else
+	{
+		printf("loaded mouse move over texture!");
+	}
+
+	if(!g_button_sprite_sheet_texture.load_from_file("./assets/img/mouse_clicks/mouseclickedon.png"))
+	{
+		printf("Failed to load mouse clicked on texture!\n");
+		success = false;
+	}
+	else
+	{
+		printf("loaded mouse clicked on texture!");
+	}
+
+	if(!g_button_sprite_sheet_texture.load_from_file("./assets/img/mouse_clicks/mousereleasedon.png"))
+	{
+		printf("Failed to load mouse released texture!\n");
+		success = false;
+	}
+	else
+	{
+		printf("loaded mouse releaded on texture!");
+	}
+	return success;
+}
 
 bool load_media()
 {
 	// Loading success flag
 	bool success = true;
 
-	success = load_font_texture(success);
+	// Load images for the mouse buttons
+	success = load_mouse_button_texture(success);
 
 	return success;
 }

@@ -36,7 +36,12 @@ bool load_png_image(bool success, std::string img_path);
 bool load_alpha_blending_p_textures(bool success);
 
 // Load font texture
+#if defined(SDL_TTF_MAJOR_VERSION)
 bool load_font_texture(bool success);
+#endif
+
+// Load mouse button texture
+bool load_mouse_button_texture(bool success);
 
 // Loads the final assets into mem, should eventually allow arrays of paths to load ALL the media sources
 bool load_media();

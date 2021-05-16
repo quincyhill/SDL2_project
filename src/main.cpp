@@ -4,8 +4,11 @@
 #include <SDL2/SDL_surface.h>
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_image.h>
-#include "window_logic.hpp"
-#include "media_funcs.hpp"
+#include "../include/window_logic.hpp"
+#include "../include/media_funcs.hpp"
+#include <stdio.h>
+#include <cstdlib>
+#include <string.h>
 
 int main(int argc, char *args[])
 {
