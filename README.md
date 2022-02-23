@@ -17,7 +17,7 @@ git clone https://github.com/quincyhill/SDL2_project.git
 ## Coding Standards
 
 ### Writing style
-* Use under_scores, no camel casing because itBecomesAPainToReadVeryLongFunctionNamesAndStuff like_that.
+* Use under_scores
 
 ### Prepends
 In this order
@@ -34,11 +34,12 @@ Cleans up object files and removes binary
 `$ make clean`
 
 ## Run
-`$ ./build/game`
+`$ ./bin/game`
 
 ## Additional Info
 bitmaps are being yeeted off this project,
 instead its better to use SDL2_image from here on
 
-## Up Next
+## Future
 Implementing gdb and unit testing as this project grows
+Switch from makefile to cmake when the project becomes bigger

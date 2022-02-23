@@ -21,7 +21,7 @@ CXX_FLAGS=""
 # LDFLAGS specifies the libraries we're linking against
 LDFLAGS=-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
-TARGET=build/game
+TARGET=bin/game
 
 build: $(OBJ_FILES)
 	$(CXX) $(OBJ_FILES) $(LDFLAGS) -o $(TARGET) 

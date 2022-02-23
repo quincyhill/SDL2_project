@@ -32,7 +32,6 @@ void set_texture_filtering()
 	{
 		printf("Warning: Linear texture filtering not enabled!\n");
 	}
-	return;
 }
 
 bool create_vsynced_window_via_texture(bool success, std::string title)
@@ -215,7 +214,6 @@ void close_basic_window_surface()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 void close_basic_window_texture()
@@ -233,7 +231,6 @@ void close_basic_window_texture()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 void close_color_set()
@@ -250,7 +247,6 @@ void close_color_set()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 void close_sprite_sheets()
@@ -267,7 +263,6 @@ void close_sprite_sheets()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 void close_arrow()
@@ -284,7 +279,6 @@ void close_arrow()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 #if defined(SDL_TTF_MAJOR_VERSION)
@@ -307,7 +301,6 @@ void close_fonts()
 	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 #endif
 
@@ -325,14 +318,13 @@ void close_buttons()
 	// Quit SDL subsystems
 	IMG_Quit();
 	SDL_Quit();
-	return;
 }
 
 void close_my_window()
 {
 	// close sprite sheet stuff
 	close_buttons();
-	return;
+	printf("window closed\n");
 }
 
 void display_single_color_screen()
@@ -344,7 +336,6 @@ void display_single_color_screen()
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
 
-	return;
 }
 
 void display_viewports_to_screen()
@@ -384,7 +375,6 @@ void display_viewports_to_screen()
 
 	// Update the screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 void display_basic_non_scaled_surface_image()
@@ -394,7 +384,6 @@ void display_basic_non_scaled_surface_image()
 
 	// Update the surface
 	SDL_UpdateWindowSurface(g_p_window);
-	return;
 }
 
 void display_basic_scaled_texture_image()
@@ -407,7 +396,6 @@ void display_basic_scaled_texture_image()
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 
@@ -432,7 +420,6 @@ void display_basic_scaled_image()
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 void display_quads_and_lines()
@@ -459,7 +446,6 @@ void display_quads_and_lines()
 	{
 		SDL_RenderDrawPoint(g_p_renderer, SCREEN_WIDTH / 2, i);
 	}
-	return;
 }
 
 void display_character_and_background()
@@ -469,7 +455,6 @@ void display_character_and_background()
 
 	// Render Character to the screen
 	g_character_texture.render((SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2) - 150);
-	return;
 }
 
 void display_sprite_clips()
@@ -492,7 +477,6 @@ void display_sprite_clips()
 
 	// Update the screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 
@@ -508,7 +492,6 @@ void display_color_modulation()
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 void display_alpha_blending()
@@ -526,7 +509,6 @@ void display_alpha_blending()
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 void display_animated_sprites()
@@ -550,7 +532,6 @@ void display_animated_sprites()
 	{
 		g_animation_frame = 0;
 	}
-	return;
 }
 
 void display_rotation_and_flipping()
@@ -565,7 +546,6 @@ void display_rotation_and_flipping()
 	
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 #if defined(SDL_TTF_MAJOR_VERSION)
@@ -582,7 +562,6 @@ void display_font()
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 #endif
 
@@ -597,7 +576,6 @@ void display_buttons()
 
 	// Update screen
 	SDL_RenderPresent(g_p_renderer);
-	return;
 }
 
 bool main_loop(bool quit, SDL_Event &r_e)
@@ -622,4 +600,3 @@ bool main_loop(bool quit, SDL_Event &r_e)
 	display_buttons();
 	return quit;
 }
-

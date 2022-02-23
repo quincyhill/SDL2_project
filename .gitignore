@@ -1,11 +1,8 @@
 # This is the executable
-build/*
+bin/*
 
 # Object files
-obj/*.o
-
-# Localfiles
-ISSUES.md
+obj/*
 
 # Depreciated, Why? cause bmp is trash, nuff said
 *.bmp

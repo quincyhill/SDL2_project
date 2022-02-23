@@ -20,27 +20,27 @@ extern SDL_Surface *g_p_png_surface;
  * Functions
  */
 
-// Load sprite sheet, is ran in loadMedia func
+// Loads sprite sheet, is ran in loadMedia func
 bool load_sprite_data(bool success);
 
-// Load background and character test
+// Loads background and character test
 bool load_character_and_background(bool success);
 
-// Load images for the viewport
+// Loads images for the viewport
 bool load_viewport_data(bool success);
 
-// Load png image, remeber to use .c_str at the end of the std::string so everything `fits`
+// Loads png image, remeber to use .c_str at the end of the std::string so everything `fits`
 bool load_png_image(bool success, std::string img_path);
 
-// Load alpha blending textures
+// Loads alpha blending textures
 bool load_alpha_blending_p_textures(bool success);
 
-// Load font texture
+// Loads font texture
 #if defined(SDL_TTF_MAJOR_VERSION)
 bool load_font_texture(bool success);
 #endif
 
-// Load mouse button texture
+// Loads mouse button texture
 bool load_mouse_button_texture(bool success);
 
 // Loads the final assets into mem, should eventually allow arrays of paths to load ALL the media sources
