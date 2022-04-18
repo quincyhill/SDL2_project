@@ -6,11 +6,12 @@
 #include <SDL2/SDL_image.h>
 #include "../include/window_logic.hpp"
 #include "../include/media_funcs.hpp"
+#include "../include/perlin_noise.hpp"
 #include <stdio.h>
 #include <cstdlib>
 #include <string.h>
 
-int main(int argc, char *args[])
+void game()
 {
 	// Start up SDL and create window
 	if(!init_my_window())
@@ -42,5 +43,13 @@ int main(int argc, char *args[])
 	}
 	// Free resources and close SDL
 	close_my_window();
+}
+
+
+
+int main(int argc, char *args[])
+{
+	game();
+	printf("Perlin Value is: %f\n", perlin(0.342f, 0.123f));
 	return 0;
 }

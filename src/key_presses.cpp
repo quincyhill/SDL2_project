@@ -40,7 +40,6 @@ void handle_key_press_color_modulation(SDL_Event &r_e)
 			g_main_color_set.blue -= 32;
 			break;
 	}
-	return;
 }
 
 void handle_key_press_output_q(SDL_Event &r_e)
@@ -53,7 +52,6 @@ void handle_key_press_output_q(SDL_Event &r_e)
 		default:
 			break;
 	}
-	return;
 }
 
 void handle_key_press_alpha_value(SDL_Event &r_e)
@@ -92,7 +90,6 @@ void handle_key_press_alpha_value(SDL_Event &r_e)
 		default:
 			break;
 	}
-	return;
 }
 
 void handle_key_press_rotation_and_flipping(SDL_Event &r_e)
@@ -116,5 +113,4 @@ void handle_key_press_rotation_and_flipping(SDL_Event &r_e)
 			g_flip_type = SDL_FLIP_VERTICAL;
 			break;
 	}
-	return;
 }

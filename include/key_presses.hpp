@@ -3,7 +3,6 @@
 
 #include <SDL2/SDL.h>
 
-// Can just put enums in the header rather than the cpp file just make sure to not redeclare in cpp file
 enum Key_Press_Surfaces
 {
 	KEY_PRESS_SURFACE_DEFAULT,

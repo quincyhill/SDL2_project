@@ -1,8 +1,8 @@
-SRC_FILES = src/main.cpp src/media_funcs.cpp src/window_logic.cpp src/key_presses.cpp src/L_Texture.cpp src/L_Button.cpp
+SRC_FILES = src/main.cpp src/media_funcs.cpp src/window_logic.cpp src/key_presses.cpp src/L_Texture.cpp src/L_Button.cpp src/perlin_noise.cpp
 
-OBJ_FILES = obj/main.o obj/media_funcs.o obj/window_logic.o obj/key_presses.o obj/L_Texture.o obj/L_Button.o
+OBJ_FILES = obj/main.o obj/media_funcs.o obj/window_logic.o obj/key_presses.o obj/L_Texture.o obj/L_Button.o obj/perlin_noise.o
 
-DEP_FILES = include/L_Texture.hpp include/L_Button.hpp include/key_presses.hpp include/media_funcs.hpp include/window_logic.hpp
+DEP_FILES = include/L_Texture.hpp include/L_Button.hpp include/key_presses.hpp include/media_funcs.hpp include/window_logic.hpp perlin_noise.hpp
 
 CXX=g++
 
@@ -12,6 +12,8 @@ IDIR=include
 SRCDIR=src
 
 ODIR=obj
+
+# NOTE: update and declare better variable names
 
 # CXX_FLAGS specifies the additional compilation options we're using
 # This time im allowing warnings to be shown
@@ -25,13 +27,13 @@ TARGET=bin/game
 
 build: $(OBJ_FILES)
 	$(CXX) $(OBJ_FILES) $(LDFLAGS) -o $(TARGET) 
-	# $(CXX) $(OBJ_FILES) $(CXX_FLAGS) $(LDFLAGS) -o $(TARGET) 
+#	$(CXX) $(OBJ_FILES) $(CXX_FLAGS) $(LDFLAGS) -o $(TARGET) 
 
-# This create final build for main only test
+# Might need to use macros so to not require the other object files
 build-main-only: obj/main.o
 	$(CXX) $^ -o $(TARGET)
 
-# This builds the main.o object file
+# This builds the main.o object file, maybe update it eventually
 obj/main.o: src/main.cpp include/window_logic.hpp include/media_funcs.hpp
 	g++ -g -c $< -o $@
 
@@ -48,6 +50,9 @@ obj/L_Texture.o: src/L_Texture.cpp include/L_Texture.hpp include/media_funcs.hpp
 	g++ -g -c $< -o $@
 
 obj/L_Button.o: src/L_Button.cpp include/L_Button.hpp include/L_Texture.hpp
+	g++ -g -c $< -o $@
+	
+obj/perlin_noise.o: src/perlin_noise.cpp include/perlin_noise.hpp
 	g++ -g -c $< -o $@
 
 install: 

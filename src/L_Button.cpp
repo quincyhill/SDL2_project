@@ -17,7 +17,6 @@ void L_Button::set_position(int x, int y)
 {
 	m_position.x = x;
 	m_position.y = y;
-	return;
 }
 
 void L_Button::handle_event(SDL_Event *p_e)
@@ -76,12 +75,10 @@ void L_Button::handle_event(SDL_Event *p_e)
 			}
 		}
 	}
-	return;
 }
 
 void L_Button::render()
 {
 	// Show current button sprite
 	g_button_sprite_sheet_texture.render(m_position.x, m_position.y,&g_sprite_clips[m_current_sprite]);
-	return;
 }

@@ -107,7 +107,6 @@ void L_Texture::free_texture()
 		m_width = 0;
 		m_height = 0;
 	}
-	return;
 }
 
 void L_Texture::render(int x, int y, SDL_Rect *clip, double angle, SDL_Point *center, SDL_RendererFlip flip)
@@ -124,28 +123,24 @@ void L_Texture::render(int x, int y, SDL_Rect *clip, double angle, SDL_Point *ce
 
 	// Render to screen
 	SDL_RenderCopyEx(g_p_renderer, m_p_texture, clip, &render_quad, angle, center, flip);
-	return;
 }
 
 void L_Texture::set_color(Uint8 red, Uint8 green, Uint8 blue)
 {
 	// Modulate texture
 	SDL_SetTextureColorMod(m_p_texture, red, green, blue);
-	return;
 }
 
 void L_Texture::set_blend_mode(SDL_BlendMode blending)
 {
 	// Set blending function
 	SDL_SetTextureBlendMode(m_p_texture, blending);
-	return;
 }
 
 void L_Texture::set_alpha(Uint8 alpha)
 {
 	// Modulate texture alpha
 	SDL_SetTextureAlphaMod(m_p_texture, alpha);
-	return;
 }
 
 int L_Texture::get_width()
