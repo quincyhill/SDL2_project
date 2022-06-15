@@ -16,21 +16,24 @@ void game()
 	// Start up SDL and create window
 	if(!init_my_window())
 	{
-		printf("Failed to initialize!\n");
+		std::printf("Failed to initialize!\n");
 	}
 	else
 	{
-		printf("window init\n");
+		std::printf("window init\n");
 		// Loads assets
-		if(!load_media())
+		bool load_media_success = load_media();
+
+		if(!load_media_success)
 		{
-			printf( "Failed to load media!\n" );
+			std::printf("Failed to load media!\n");
 		}
 		else
 		{	
+			std::printf("Loaded media!\n");
+
 			// Main loop flag
 			bool quit = false;
-
 			// Event handler
 			SDL_Event e;
 
@@ -50,6 +53,6 @@ void game()
 int main(int argc, char *args[])
 {
 	game();
-	printf("Perlin Value is: %f\n", perlin(0.342f, 0.123f));
+	std::printf("Perlin Value is: %f\n", perlin(0.342f, 0.123f));
 	return 0;
 }

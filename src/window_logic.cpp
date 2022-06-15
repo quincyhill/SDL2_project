@@ -30,7 +30,7 @@ void set_texture_filtering()
 	// Set texture filtering to linear, don't know if this is needed here
 	if(!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1"))
 	{
-		printf("Warning: Linear texture filtering not enabled!\n");
+		std::printf("Warning: Linear texture filtering not enabled!\n");
 	}
 }
 
@@ -40,7 +40,7 @@ bool create_vsynced_window_via_texture(bool success, std::string title)
 	g_p_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_p_window == nullptr)
 	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+		std::printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	}
 	else
@@ -49,7 +49,7 @@ bool create_vsynced_window_via_texture(bool success, std::string title)
 		g_p_renderer = SDL_CreateRenderer(g_p_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		if(g_p_renderer == nullptr)
 		{
-			printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+			std::printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		}
 		else
@@ -61,7 +61,7 @@ bool create_vsynced_window_via_texture(bool success, std::string title)
 			int img_flags = IMG_INIT_PNG;
 			if(!(IMG_Init(img_flags) & img_flags))
 			{
-				printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
+				std::printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
 				success = false;
 			}
 		}
@@ -75,7 +75,7 @@ bool create_basic_window_via_surface(bool success, std::string title)
 	g_p_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_p_window == nullptr)
 	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+		std::printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	}
 	else
@@ -84,7 +84,7 @@ bool create_basic_window_via_surface(bool success, std::string title)
 		int img_flags = IMG_INIT_PNG;
 		if(!(IMG_Init(img_flags) & img_flags))
 		{
-			printf("SDL_image could not initialize! SDL_image_Error:%s\n", IMG_GetError());
+			std::printf("SDL_image could not initialize! SDL_image_Error:%s\n", IMG_GetError());
 			success = false;
 		}
 		else
@@ -102,7 +102,7 @@ bool create_basic_window_via_texture_with_ttf(bool success, std::string title)
 	g_p_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_p_window == nullptr)
 	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+		std::printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	}
 	else
@@ -111,7 +111,7 @@ bool create_basic_window_via_texture_with_ttf(bool success, std::string title)
 		g_p_renderer = SDL_CreateRenderer(g_p_window, -1, SDL_RENDERER_ACCELERATED);
 		if(g_p_renderer == nullptr)
 		{
-			printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+			std::printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		}
 		else
@@ -123,7 +123,7 @@ bool create_basic_window_via_texture_with_ttf(bool success, std::string title)
 			int img_flags = IMG_INIT_PNG;
 			if(!(IMG_Init(img_flags) & img_flags))
 			{
-				printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
+				std::printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
 				success = false;
 			}
 
@@ -132,7 +132,7 @@ bool create_basic_window_via_texture_with_ttf(bool success, std::string title)
 			// Initialize SDL_ttf
 			if(TTF_Init() == -1)
 			{
-				printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+				std::printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 				success = false;
 			}
 		}
@@ -146,7 +146,7 @@ bool create_basic_window_via_texture(bool success, std::string title)
 	g_p_window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(g_p_window == nullptr)
 	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+		std::printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	}
 	else
@@ -155,7 +155,7 @@ bool create_basic_window_via_texture(bool success, std::string title)
 		g_p_renderer = SDL_CreateRenderer(g_p_window, -1, SDL_RENDERER_ACCELERATED);
 		if(g_p_renderer == nullptr)
 		{
-			printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+			std::printf("Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
 			success = false;
 		}
 		else
@@ -167,7 +167,7 @@ bool create_basic_window_via_texture(bool success, std::string title)
 			int img_flags = IMG_INIT_PNG;
 			if(!(IMG_Init(img_flags) & img_flags))
 			{
-				printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
+				std::printf("SDL_image could not initialize! SDL_image_Error: %s\n", IMG_GetError());
 				success = false;
 			}
 		}
@@ -184,7 +184,7 @@ bool init_my_window()
 	// Initialize SDL
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+		std::printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		success = false;
 	}
 	else
@@ -324,7 +324,7 @@ void close_my_window()
 {
 	// close sprite sheet stuff
 	close_buttons();
-	printf("window closed\n");
+	std::printf("window closed\n");
 }
 
 void display_single_color_screen()
@@ -582,6 +582,11 @@ bool main_loop(bool quit, SDL_Event &r_e)
 {
 	// *** KEYBOARD DRIVEN EVENTS *** //
 	// Handle events on queue
+
+	// *** DISPLAY RELATED CODE *** //
+	display_quads_and_lines();
+
+	// Maybe refactor this...
 	while(SDL_PollEvent(&r_e) != 0)
 	{	
 		// User requests quit
@@ -594,9 +599,10 @@ bool main_loop(bool quit, SDL_Event &r_e)
 		{
 			// just prints q for logging purposes
 			handle_key_press_output_q(r_e);
+			// what else...
+			std::printf("What is new here?\n");
 		}
 	}
-	// *** DISPLAY RELATED CODE *** //
-	display_buttons();
+
 	return quit;
 }

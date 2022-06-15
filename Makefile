@@ -4,7 +4,7 @@ OBJ_FILES = obj/main.o obj/media_funcs.o obj/window_logic.o obj/key_presses.o ob
 
 DEP_FILES = include/L_Texture.hpp include/L_Button.hpp include/key_presses.hpp include/media_funcs.hpp include/window_logic.hpp perlin_noise.hpp
 
-CXX=g++
+CXX=g++ -g -Wall
 
 # Figure out how to use this for folders
 IDIR=include
@@ -35,25 +35,25 @@ build-main-only: obj/main.o
 
 # This builds the main.o object file, maybe update it eventually
 obj/main.o: src/main.cpp include/window_logic.hpp include/media_funcs.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 
 obj/media_funcs.o: src/media_funcs.cpp include/media_funcs.hpp include/window_logic.hpp include/key_presses.hpp include/L_Texture.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 
 obj/window_logic.o: src/window_logic.cpp include/window_logic.hpp include/key_presses.hpp include/media_funcs.hpp include/L_Texture.hpp include/L_Button.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 
 obj/key_presses.o: src/key_presses.cpp include/key_presses.hpp include/window_logic.hpp include/media_funcs.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 
 obj/L_Texture.o: src/L_Texture.cpp include/L_Texture.hpp include/media_funcs.hpp include/window_logic.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 
 obj/L_Button.o: src/L_Button.cpp include/L_Button.hpp include/L_Texture.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 	
 obj/perlin_noise.o: src/perlin_noise.cpp include/perlin_noise.hpp
-	g++ -g -c $< -o $@
+	$(CXX) -c $< -o $@
 
 install: 
 	echo "Nothing yet"

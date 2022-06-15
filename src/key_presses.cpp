@@ -47,7 +47,7 @@ void handle_key_press_output_q(SDL_Event &r_e)
 	switch(r_e.key.keysym.sym)
 	{
 		case SDLK_q:
-			printf("The user pressed letter Q!\n");
+			std::printf("The user pressed letter Q!\n");
 			break;
 		default:
 			break;

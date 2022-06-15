@@ -26,7 +26,7 @@ bool L_Texture::load_from_file(std::string img_path)
 	SDL_Surface *p_loaded_surface = IMG_Load(img_path.c_str());
 	if(p_loaded_surface == nullptr)
 	{
-		printf("Unable to load image %s! SDL_Error: %s\n", img_path.c_str(), IMG_GetError());
+		std::printf("Unable to load image %s! SDL_Error: %s\n", img_path.c_str(), IMG_GetError());
 	}
 	else
 	{
@@ -37,7 +37,7 @@ bool L_Texture::load_from_file(std::string img_path)
 		p_new_texture = SDL_CreateTextureFromSurface(g_p_renderer, p_loaded_surface);
 		if(p_new_texture == nullptr)
 		{
-			printf("Unable to create texture from %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
+			std::printf("Unable to create texture from %s! SDL_Error: %s\n", img_path.c_str(), SDL_GetError());
 		}
 		else
 		{
@@ -69,7 +69,7 @@ bool L_Texture::load_from_rendered_text(std::string texture_text, SDL_Color text
 	SDL_Surface *text_surface = TTF_RenderText_Solid(g_p_font, texture_text.c_str(), text_color);
 	if(text_surface == nullptr)
 	{
-		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+		std::printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 	}
 	else
 	{
@@ -77,7 +77,7 @@ bool L_Texture::load_from_rendered_text(std::string texture_text, SDL_Color text
 		m_p_texture = SDL_CreateTextureFromSurface(g_p_renderer, text_surface);
 		if(m_p_texture == nullptr)
 		{
-			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+			std::printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 		}
 		else
 		{
