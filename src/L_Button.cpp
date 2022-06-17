@@ -8,15 +8,15 @@ const int TOTAL_BUTTONS = 4;
 
 L_Button::L_Button()
 {
-	m_position.x = 0;
-	m_position.y = 0;
-	m_current_sprite = BUTTON_SPRITE_MOUSE_OUT;
+	this->m_position.x = 0;
+	this->m_position.y = 0;
+	this->m_current_sprite = BUTTON_SPRITE_MOUSE_OUT;
 }
 
 void L_Button::set_position(int x, int y)
 {
-	m_position.x = x;
-	m_position.y = y;
+	this->m_position.x = x;
+	this->m_position.y = y;
 }
 
 void L_Button::handle_event(SDL_Event *p_e)
@@ -32,22 +32,22 @@ void L_Button::handle_event(SDL_Event *p_e)
 		bool inside = true;
 
 		// Mouse is left of the button
-		if(x < m_position.x)
+		if(x < this->m_position.x)
 		{
 			inside = false;
 		}
 		// Mouse is right of the button
-		else if(x > m_position.x + BUTTON_WIDTH)
+		else if(x > this->m_position.x + BUTTON_WIDTH)
 		{
 			inside = false;
 		}
 		// Mouse is above the button
-		else if(y < m_position.y)
+		else if(y < this->m_position.y)
 		{
 			inside = false;
 		}
 		// Mouse is below the button
-		else if(y > m_position.y + BUTTON_HEIGHT)
+		else if(y > this->m_position.y + BUTTON_HEIGHT)
 		{
 			inside = false;
 		}
@@ -55,7 +55,7 @@ void L_Button::handle_event(SDL_Event *p_e)
 		// Mouse is outside button
 		if(!inside)
 		{
-			m_current_sprite = BUTTON_SPRITE_MOUSE_OUT;
+			this->m_current_sprite = BUTTON_SPRITE_MOUSE_OUT;
 		}
 		// Mouse is inside button
 		else
@@ -64,13 +64,13 @@ void L_Button::handle_event(SDL_Event *p_e)
 			switch(p_e->type)
 			{
 				case SDL_MOUSEMOTION:
-					m_current_sprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
+					this->m_current_sprite = BUTTON_SPRITE_MOUSE_OVER_MOTION;
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					m_current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
+					this->m_current_sprite = BUTTON_SPRITE_MOUSE_DOWN;
 					break;
 				case SDL_MOUSEBUTTONUP:
-					m_current_sprite = BUTTON_SPRITE_MOUSE_UP;
+					this->m_current_sprite = BUTTON_SPRITE_MOUSE_UP;
 					break;
 			}
 		}
@@ -80,5 +80,5 @@ void L_Button::handle_event(SDL_Event *p_e)
 void L_Button::render()
 {
 	// Show current button sprite
-	g_button_sprite_sheet_texture.render(m_position.x, m_position.y,&g_sprite_clips[m_current_sprite]);
+	g_button_sprite_sheet_texture.render(this->m_position.x, this->m_position.y,&g_sprite_clips[this->m_current_sprite]);
 }

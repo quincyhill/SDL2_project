@@ -584,7 +584,7 @@ bool main_loop(bool quit, SDL_Event &r_e)
 	// Handle events on queue
 
 	// *** DISPLAY RELATED CODE *** //
-	display_quads_and_lines();
+	display_character_and_background();
 
 	// Maybe refactor this...
 	while(SDL_PollEvent(&r_e) != 0)

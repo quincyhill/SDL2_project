@@ -9,3 +9,6 @@ obj/*
 
 # Uhhhh always keep on creating this file somehow...
 \"\'\"
+
+# Vscode stuff
+.vscode

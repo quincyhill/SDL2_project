@@ -4,7 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 
 /*
  * extern is used for variables and pointers functions are just the way they are

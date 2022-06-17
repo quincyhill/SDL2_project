@@ -1,6 +1,7 @@
 #ifndef PERLIN_NOISE_HPP
 #define PERLIN_NOISE_HPP
-#include <math.h>
+#include <cmath>
+#include <vector>
 
 // 2D float vector
 typedef struct
@@ -20,6 +21,5 @@ float dot_grid_gradient(int ix, int iy, float x, float y);
 
 // Compute Perline noise at coordinates x,y
 float perlin(float x, float y);
-
 
 #endif
