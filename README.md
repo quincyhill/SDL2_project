@@ -1,6 +1,6 @@
 # SDL2 Project
 
-## Just a Game to learn using C++, SDL2 and a Makefile
+Just a Game to learn using C++, SDL2 and a Makefile
 
 ## Dependencies
 
@@ -33,8 +33,8 @@ In this order
 
 ## Build Environment
 
-Builds the game demo
-`$ make build`
+Builds the game demo in debug mode
+`$ make build-debug`
 
 Cleans up object files and removes binary
 `$ make clean`
@@ -42,12 +42,6 @@ Cleans up object files and removes binary
 ## Run
 
 `$ ./bin/game`
-
-## Additional Info
-
-bitmaps are being yeeted off this project,
-instead its better to use SDL2_image from here on
-fix up some of these looooong names
 
 ## Future
 

@@ -1,61 +1,35 @@
-SRC_FILES = src/main.cpp src/media_funcs.cpp src/window_logic.cpp src/key_presses.cpp src/L_Texture.cpp src/L_Button.cpp src/perlin_noise.cpp
+OBJ_FILES = obj/main.o
 
-OBJ_FILES = obj/main.o obj/media_funcs.o obj/window_logic.o obj/key_presses.o obj/L_Texture.o obj/L_Button.o obj/perlin_noise.o
+# This is still valid
+CXX=g++
 
-DEP_FILES = include/L_Texture.hpp include/L_Button.hpp include/key_presses.hpp include/media_funcs.hpp include/window_logic.hpp perlin_noise.hpp
-
-CXX=g++ -g -Wall
+CXXFLAGS=-g -Wall
 
 # Figure out how to use this for folders
 IDIR=include
 
-SRCDIR=src
+SRC=src
 
-ODIR=obj
-
-# NOTE: update and declare better variable names
-
-# CXX_FLAGS specifies the additional compilation options we're using
-# This time im allowing warnings to be shown
-# -w , for eg, suppresses all warnings
-CXX_FLAGS=""
+OBJ=obj
 
 # LDFLAGS specifies the libraries we're linking against
 LDFLAGS=-lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 TARGET=bin/game
 
-build: $(OBJ_FILES)
-	$(CXX) $(OBJ_FILES) $(LDFLAGS) -o $(TARGET) 
-#	$(CXX) $(OBJ_FILES) $(CXX_FLAGS) $(LDFLAGS) -o $(TARGET) 
+build-debug: $(OBJ_FILES)
+	$(CXX) $(CXXFLAGS) $(OBJ_FILES) $(LDFLAGS) -o $(TARGET) 
 
 # Might need to use macros so to not require the other object files
 build-main-only: obj/main.o
-	$(CXX) $^ -o $(TARGET)
+	$(CXX) $(CXXFLAGS) $^ -o $(TARGET)
 
 # This builds the main.o object file, maybe update it eventually
-obj/main.o: src/main.cpp include/window_logic.hpp include/media_funcs.hpp
-	$(CXX) -c $< -o $@
-
-obj/media_funcs.o: src/media_funcs.cpp include/media_funcs.hpp include/window_logic.hpp include/key_presses.hpp include/L_Texture.hpp
-	$(CXX) -c $< -o $@
-
-obj/window_logic.o: src/window_logic.cpp include/window_logic.hpp include/key_presses.hpp include/media_funcs.hpp include/L_Texture.hpp include/L_Button.hpp
-	$(CXX) -c $< -o $@
-
-obj/key_presses.o: src/key_presses.cpp include/key_presses.hpp include/window_logic.hpp include/media_funcs.hpp
-	$(CXX) -c $< -o $@
-
-obj/L_Texture.o: src/L_Texture.cpp include/L_Texture.hpp include/media_funcs.hpp include/window_logic.hpp
-	$(CXX) -c $< -o $@
-
-obj/L_Button.o: src/L_Button.cpp include/L_Button.hpp include/L_Texture.hpp
-	$(CXX) -c $< -o $@
-	
-obj/perlin_noise.o: src/perlin_noise.cpp include/perlin_noise.hpp
+obj/main.o: src/main.cpp
 	$(CXX) -c $< -o $@
 
 install: 
+# would also have to copy over assets and make sure the path that are referenced in the code are valid so yea it would be a release build
 	echo "Nothing yet"
 
 uninstall:
@@ -65,4 +39,4 @@ uninstall:
 .PHONY: clean
 
 clean:
-	rm -f obj/*.o $(TARGET)
+	rm -f $(OBJ)/*.o $(TARGET)

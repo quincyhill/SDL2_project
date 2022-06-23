@@ -1,58 +1,65 @@
-// Using SDL and standard IO
+#include <cstdio>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_keycode.h>
-#include <SDL2/SDL_surface.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_image.h>
-#include "../include/window_logic.hpp"
-#include "../include/media_funcs.hpp"
-#include "../include/perlin_noise.hpp"
-#include <stdio.h>
-#include <cstdlib>
-#include <string.h>
 
-void game()
-{
-	// Start up SDL and create window
-	if(!init_my_window())
-	{
-		std::printf("Failed to initialize!\n");
-	}
-	else
-	{
-		std::printf("window init\n");
-		// Loads assets
-		bool load_media_success = load_media();
+// Screen dimensions
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+// The window
+SDL_Window *gWindow = NULL;
 
-		if(!load_media_success)
-		{
-			std::printf("Failed to load media!\n");
-		}
-		else
-		{	
-			std::printf("Loaded media!\n");
+// The surface contained by the window
+SDL_Surface *gScreenSurface = NULL;
 
-			// Main loop flag
-			bool quit = false;
-			// Event handler
-			SDL_Event e;
+// The image we will load and show on the screen
+SDL_Surface *gHelloWorld = NULL;
 
-			// While application is running
-			while(!quit)
-			{
-				quit = main_loop(quit, e);
-			}
-		}
-	}
-	// Free resources and close SDL
-	close_my_window();
+bool initWindow();
+
+bool loadMedia();
+
+void closeWindow();
+
+bool initWindow(){
+    // Initialize flag
+    bool success = true;
+
+    // 
+    return success;
 }
 
-
-
-int main(int argc, char *args[])
+int main(int argc, char *argv[])
 {
-	game();
-	std::printf("Perlin Value is: %f\n", perlin(0.342f, 0.123f));
-	return 0;
+
+    // Initailize SDL
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
+    } else {
+        // Create the window
+        std::printf("We will will try to create a window\n");
+        gWindow = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+        if(gWindow==NULL) {
+            std::printf("Window is null and couldn't be created! SDL Error: %s\n", SDL_GetError());
+        } else {
+            // Get window surface
+            gScreenSurface = SDL_GetWindowSurface(gWindow);
+
+            // Fill the surface white
+            SDL_FillRect(gScreenSurface, NULL, SDL_MapRGB(gScreenSurface->format, 0xff, 0xff, 0x22));
+
+            // Dont know what the issue is so this will do.
+            SDL_Delay(200);
+
+            SDL_UpdateWindowSurface(gWindow);
+
+            // Wait two seconds then close window
+            SDL_Delay(2000);
+        }
+    }
+
+    // Destroy window
+    SDL_DestroyWindow(gWindow);
+
+    // Quit SDL Subsystems
+    SDL_Quit();
+    return 0;
 }
